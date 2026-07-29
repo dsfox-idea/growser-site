@@ -6,37 +6,44 @@
 <title>Growser — coming soon</title>
 <meta name="description" content="Growser — a privacy-first browser. Coming soon." />
 <style>
-  :root { --blue:#3DA9FC; --ink:#eaf2ff; }
+  :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
   * { margin:0; padding:0; box-sizing:border-box; }
   html,body { height:100%; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    background: radial-gradient(1200px 800px at 70% -10%, #4b2a72 0%, #2a1b46 45%, #140f24 100%);
+    background: radial-gradient(1200px 820px at 50% -8%, #2a2c5a 0%, #171a3d 46%, #0a0b1e 100%);
     min-height:100%; display:flex; align-items:center; justify-content:center;
     text-align:center; padding:24px; overflow:hidden;
   }
+  .stars { position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-140px;
+    transform:translateX(-50%); pointer-events:none;
+    background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
   .wrap { position:relative; z-index:1; }
-  .logo { width:132px; height:132px; margin:0 auto 28px; display:block;
-    filter: drop-shadow(0 8px 40px rgba(61,169,252,.45)); animation: float 6s ease-in-out infinite; }
+  .logo { width:140px; height:140px; margin:0 auto 30px; display:block;
+    filter: drop-shadow(0 10px 46px rgba(30,163,98,.55)); animation: float 6s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   h1 { font-size: clamp(40px, 9vw, 84px); font-weight:800; letter-spacing:-.02em; }
+  h1 .g { color: var(--green); }
   .tag { margin-top:14px; font-size: clamp(15px,3.5vw,20px); color:#b9c4e6; font-weight:500; }
-  .soon { margin-top:34px; display:inline-flex; align-items:center; gap:10px;
+  .soon { margin-top:36px; display:inline-flex; align-items:center; gap:10px;
     font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#9fb0da; }
-  .dot { width:9px; height:9px; border-radius:50%; background:var(--blue);
-    box-shadow:0 0 0 0 rgba(61,169,252,.6); animation: pulse 1.8s infinite; }
-  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(61,169,252,.55)} 70%{box-shadow:0 0 0 14px rgba(61,169,252,0)} 100%{box-shadow:0 0 0 0 rgba(61,169,252,0)} }
-  .foot { position:fixed; bottom:22px; left:0; right:0; font-size:12px; color:#7f8bb0; }
+  .dot { width:9px; height:9px; border-radius:50%; background:var(--green-bright);
+    box-shadow:0 0 0 0 rgba(47,208,127,.6); animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(47,208,127,.55)} 70%{box-shadow:0 0 0 14px rgba(47,208,127,0)} 100%{box-shadow:0 0 0 0 rgba(47,208,127,0)} }
+  .foot { position:fixed; bottom:22px; left:0; right:0; z-index:1; font-size:12px; color:#7f8bb0; }
 </style>
 </head>
 <body>
+  <svg class="stars" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="32.4%" cy="15.1%" r="0.6" fill="#fff" opacity="0.29"/><circle cx="53.6%" cy="36.6%" r="0.6" fill="#fff" opacity="0.80"/><circle cx="21.5%" cy="8.6%" r="1.3" fill="#fff" opacity="0.29"/><circle cx="9.1%" cy="42.5%" r="0.6" fill="#fff" opacity="0.82"/><circle cx="63.1%" cy="58.3%" r="0.6" fill="#fff" opacity="0.60"/><circle cx="39.7%" cy="97.6%" r="0.6" fill="#fff" opacity="0.58"/><circle cx="13.3%" cy="41.9%" r="0.6" fill="#fff" opacity="0.59"/><circle cx="56.0%" cy="68.2%" r="0.6" fill="#fff" opacity="0.60"/><circle cx="63.9%" cy="37.2%" r="0.6" fill="#fff" opacity="0.59"/><circle cx="61.9%" cy="49.6%" r="1.3" fill="#fff" opacity="0.72"/><circle cx="46.6%" cy="92.3%" r="1.0" fill="#fff" opacity="0.43"/><circle cx="79.4%" cy="69.9%" r="0.8" fill="#fff" opacity="0.30"/><circle cx="30.0%" cy="49.5%" r="1.0" fill="#fff" opacity="0.69"/><circle cx="28.8%" cy="98.0%" r="0.6" fill="#fff" opacity="0.56"/><circle cx="16.5%" cy="34.2%" r="1.3" fill="#fff" opacity="0.50"/><circle cx="96.2%" cy="7.8%" r="1.0" fill="#fff" opacity="0.45"/><circle cx="35.0%" cy="49.7%" r="1.3" fill="#fff" opacity="0.29"/><circle cx="9.4%" cy="27.0%" r="0.6" fill="#fff" opacity="0.29"/><circle cx="70.1%" cy="64.7%" r="1.3" fill="#fff" opacity="0.42"/><circle cx="38.6%" cy="66.9%" r="0.6" fill="#fff" opacity="0.81"/><circle cx="35.5%" cy="61.1%" r="1.3" fill="#fff" opacity="0.29"/><circle cx="76.8%" cy="12.9%" r="0.8" fill="#fff" opacity="0.49"/><circle cx="91.7%" cy="49.7%" r="0.8" fill="#fff" opacity="0.52"/><circle cx="54.9%" cy="88.3%" r="1.3" fill="#fff" opacity="0.77"/><circle cx="27.8%" cy="41.5%" r="1.0" fill="#fff" opacity="0.66"/><circle cx="38.0%" cy="23.1%" r="0.6" fill="#fff" opacity="0.36"/><circle cx="23.2%" cy="23.3%" r="1.3" fill="#fff" opacity="0.75"/><circle cx="18.2%" cy="28.2%" r="0.8" fill="#fff" opacity="0.50"/><circle cx="36.9%" cy="56.6%" r="0.8" fill="#fff" opacity="0.66"/><circle cx="51.5%" cy="61.8%" r="0.6" fill="#fff" opacity="0.52"/><circle cx="87.1%" cy="95.2%" r="1.3" fill="#fff" opacity="0.49"/><circle cx="39.4%" cy="48.2%" r="1.3" fill="#fff" opacity="0.29"/><circle cx="6.7%" cy="20.9%" r="0.8" fill="#fff" opacity="0.32"/><circle cx="60.1%" cy="10.2%" r="0.8" fill="#fff" opacity="0.57"/><circle cx="94.9%" cy="61.4%" r="0.6" fill="#fff" opacity="0.77"/><circle cx="61.4%" cy="14.9%" r="1.0" fill="#fff" opacity="0.82"/><circle cx="60.2%" cy="47.4%" r="0.6" fill="#fff" opacity="0.76"/><circle cx="99.3%" cy="46.6%" r="1.3" fill="#fff" opacity="0.44"/><circle cx="14.4%" cy="75.0%" r="1.0" fill="#fff" opacity="0.54"/><circle cx="69.2%" cy="51.6%" r="0.8" fill="#fff" opacity="0.82"/><circle cx="52.8%" cy="14.7%" r="0.6" fill="#fff" opacity="0.70"/><circle cx="29.8%" cy="64.3%" r="0.6" fill="#fff" opacity="0.67"/><circle cx="26.1%" cy="36.7%" r="0.8" fill="#fff" opacity="0.46"/><circle cx="22.3%" cy="54.2%" r="1.0" fill="#fff" opacity="0.63"/><circle cx="61.3%" cy="78.8%" r="0.8" fill="#fff" opacity="0.73"/><circle cx="81.8%" cy="74.0%" r="0.8" fill="#fff" opacity="0.37"/><circle cx="49.3%" cy="73.1%" r="0.6" fill="#fff" opacity="0.72"/><circle cx="47.2%" cy="19.4%" r="1.0" fill="#fff" opacity="0.52"/><circle cx="93.7%" cy="98.8%" r="1.0" fill="#fff" opacity="0.30"/><circle cx="10.2%" cy="47.0%" r="1.0" fill="#fff" opacity="0.37"/><circle cx="62.4%" cy="90.0%" r="0.6" fill="#fff" opacity="0.54"/><circle cx="65.3%" cy="80.0%" r="0.6" fill="#fff" opacity="0.75"/><circle cx="12.0%" cy="38.9%" r="0.8" fill="#fff" opacity="0.54"/><circle cx="17.9%" cy="78.9%" r="1.0" fill="#fff" opacity="0.30"/><circle cx="94.6%" cy="72.2%" r="1.3" fill="#fff" opacity="0.49"/><circle cx="94.7%" cy="72.5%" r="0.8" fill="#fff" opacity="0.85"/><circle cx="2.8%" cy="59.1%" r="1.3" fill="#fff" opacity="0.73"/><circle cx="14.6%" cy="82.7%" r="1.3" fill="#fff" opacity="0.64"/><circle cx="35.0%" cy="54.9%" r="0.8" fill="#fff" opacity="0.26"/><circle cx="79.9%" cy="72.6%" r="0.6" fill="#fff" opacity="0.57"/><circle cx="93.4%" cy="43.4%" r="0.8" fill="#fff" opacity="0.75"/><circle cx="21.1%" cy="25.2%" r="1.0" fill="#fff" opacity="0.55"/><circle cx="76.4%" cy="32.6%" r="1.3" fill="#fff" opacity="0.75"/><circle cx="6.1%" cy="74.0%" r="1.3" fill="#fff" opacity="0.65"/><circle cx="81.5%" cy="51.7%" r="0.8" fill="#fff" opacity="0.57"/><circle cx="52.4%" cy="1.9%" r="1.3" fill="#fff" opacity="0.72"/><circle cx="60.9%" cy="77.6%" r="0.8" fill="#fff" opacity="0.35"/><circle cx="47.3%" cy="72.5%" r="0.6" fill="#fff" opacity="0.45"/><circle cx="51.8%" cy="55.5%" r="0.6" fill="#fff" opacity="0.78"/><circle cx="5.7%" cy="19.1%" r="0.6" fill="#fff" opacity="0.71"/></svg>
+  <div class="glow"></div>
   <div class="wrap">
     <svg class="logo" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-label="Growser">
-      <path fill="#3DA9FC" fill-rule="nonzero" d="M 983.04 512 C 983.04 251.85 772.15 40.96 512 40.96 C 251.85 40.96 40.96 251.85 40.96 512 C 40.96 772.15 251.85 983.04 512 983.04 C 772.15 983.04 983.04 772.15 983.04 512 Z M 860.16 512 C 860.16 704.28 704.28 860.16 512 860.16 C 319.72 860.16 163.84 704.28 163.84 512 C 163.84 319.72 319.72 163.84 512 163.84 C 704.28 163.84 860.16 319.72 860.16 512 Z"/>
-      <path fill="#3DA9FC" d="M 544.59 577.55 L 544.59 494.11 L 760.11 494.11 L 760.11 691.37 C 739.14 711.62 708.77 729.45 668.99 744.87 C 629.29 760.29 589.05 768 548.26 768 C 496.53 768 451.38 757.16 412.83 735.47 C 374.35 713.71 345.42 682.61 326.04 642.19 C 306.66 601.76 296.96 557.81 296.96 510.32 C 296.96 458.73 307.77 412.90 329.39 372.84 C 351.01 332.78 382.64 302.04 424.29 280.64 C 456.07 264.21 495.59 256 542.86 256 C 604.32 256 652.35 268.90 686.94 294.69 C 721.52 320.42 743.75 356.01 753.62 401.48 L 654.40 420.07 C 647.41 395.79 634.26 376.62 614.95 362.57 C 595.71 348.45 571.68 341.39 542.86 341.39 C 499.19 341.39 464.46 355.26 438.66 383 C 412.87 410.67 399.97 451.74 399.97 506.22 C 399.97 565.02 413.01 609.11 439.10 638.51 C 465.25 667.84 499.52 682.50 541.89 682.50 C 562.85 682.50 583.86 678.40 604.90 670.18 C 625.94 661.97 643.99 652.02 659.05 640.35 L 659.05 577.55 L 544.59 577.55 Z"/>
+      <path fill="#FFFFFF" fill-rule="nonzero" d="M 993.28 512.00 C 993.28 246.20 777.80 30.72 512.00 30.72 C 246.20 30.72 30.72 246.20 30.72 512.00 C 30.72 777.80 246.20 993.28 512.00 993.28 C 777.80 993.28 993.28 777.80 993.28 512.00 Z M 909.42 512.00 C 909.42 731.49 731.49 909.42 512.00 909.42 C 292.51 909.42 114.58 731.49 114.58 512.00 C 114.58 292.51 292.51 114.58 512.00 114.58 C 731.49 114.58 909.42 292.51 909.42 512.00 Z"/>
+      <path fill="#1EA362" d="M 557.19 492.96 L 785.42 492.96 L 785.42 511.28 C 785.42 552.79 780.53 589.49 770.77 621.38 C 761.23 650.99 745.13 678.65 722.46 704.37 C 671.19 762.13 605.98 791.01 526.85 791.01 C 449.56 791.01 383.36 763.09 328.27 707.23 C 273.25 651.22 245.74 583.99 245.74 505.55 C 245.74 425.43 273.75 357.48 329.76 301.70 C 385.76 245.62 453.94 217.57 534.29 217.57 C 577.48 217.57 617.81 226.39 655.28 244.01 C 690.99 261.72 726.17 290.33 760.81 329.86 L 701.40 386.74 C 656.08 326.46 600.87 296.32 535.78 296.32 C 477.33 296.32 428.34 316.47 388.82 356.76 C 349.21 396.36 329.41 445.96 329.41 505.55 C 329.41 567.05 351.46 617.72 395.57 657.55 C 436.85 694.49 481.57 712.95 529.72 712.95 C 570.69 712.95 607.51 699.14 640.17 671.52 C 672.90 643.59 691.18 610.21 694.99 571.37 L 557.19 571.37 L 557.19 492.96 Z"/>
     </svg>
-    <h1>Growser</h1>
+    <h1><span class="g">G</span>rowser</h1>
     <p class="tag">A privacy-first browser.</p>
     <div class="soon"><span class="dot"></span> Coming soon</div>
   </div>
