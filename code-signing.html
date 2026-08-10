@@ -61,6 +61,20 @@
     Chromium. We do not sign third-party binaries.
   </p>
 
+  <h2>macOS signing</h2>
+  <p>
+    macOS releases are signed with an Apple Developer ID certificate
+    (<code>Developer ID Application: Dmitry Golubnichiy (C3DL5896VG)</code>),
+    notarized by Apple, and the notarization ticket is stapled to the bundle.
+    Notarization submits the archive to Apple, waits for a verdict, then staples
+    the ticket &mdash; so the download verifies offline and Gatekeeper accepts
+    it on first open with no &ldquo;cannot be verified&rdquo; warning. The
+    signing identity and the notarization credentials live in the Apple
+    Developer account and the build machine&rsquo;s keychain, never in the
+    repository; the release script injects the identity for one run only and
+    removes it afterwards, so the daily unsigned build is unaffected.
+  </p>
+
   <h2>Roles</h2>
   <table>
     <tr><th>Role</th><th>Who</th><th>What it means</th></tr>
