@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Growser — coming soon</title>
+<title>Growser — a privacy-first browser</title>
 <meta name="description" content="Growser — a privacy-first browser. Coming soon." />
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="%2333C57B"/><stop offset="1" stop-color="%23148C50"/></linearGradient></defs><rect width="1024" height="1024" rx="231" fill="url(%23b)"/><path d="M 638.3 331.7 A 220.2 220.2 0 1 0 732.2 512 L 593.9 512" fill="none" stroke="%23FFFFFF" stroke-opacity="0.85" stroke-width="96.3" stroke-linecap="round" stroke-linejoin="round"/></svg>' />
 <style>
@@ -34,6 +34,15 @@
     box-shadow:0 0 0 0 rgba(47,208,127,.6); animation: pulse 1.8s infinite; }
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(47,208,127,.55)} 70%{box-shadow:0 0 0 14px rgba(47,208,127,0)} 100%{box-shadow:0 0 0 0 rgba(47,208,127,0)} }
   .foot { position:fixed; bottom:22px; left:0; right:0; z-index:1; font-size:12px; color:#7f8bb0; }
+  .get { margin-top:34px; display:inline-block; padding:15px 34px; border-radius:12px;
+    background:var(--green); color:#04120b; font-weight:800; font-size:17px; text-decoration:none;
+    box-shadow:0 10px 34px rgba(30,163,98,.42); transition:transform .15s ease, box-shadow .15s ease; }
+  .get:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(30,163,98,.55); }
+  .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
+  .meta a { color:#9fb0da; }
+  .warn { margin:22px auto 0; max-width:520px; font-size:13px; line-height:1.6; color:#9aa7cc;
+    border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:12px 16px; text-align:left; }
+  .warn b { color:#c9d5f5; }
 </style>
 </head>
 <body>
@@ -47,8 +56,19 @@
     </svg>
     <h1><span class="g">G</span>rowser</h1>
     <p class="tag">A privacy-first browser.</p>
-    <div class="soon"><span class="dot"></span> Coming soon</div>
+    <a class="get" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows</a>
+    <div class="meta">
+      version 151.1.95.0 · 64-bit · 241 MB ·
+      <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v151.1.95.0">release notes and checksum</a>
+    </div>
+    <div class="warn">
+      <b>Windows will warn you.</b> This build is not code-signed yet, so
+      SmartScreen shows &ldquo;Windows protected your PC&rdquo; and the publisher
+      reads as unknown. Choose <b>More info</b> &rarr; <b>Run anyway</b>, or
+      check the SHA-256 on the release page first. A certificate is being
+      arranged; see our <a href="/code-signing.html">code signing policy</a>.
+    </div>
   </div>
-  <div class="foot">© 2026 Growser · growser.org</div>
+  <div class="foot">© 2026 Growser · growser.org · <a href="https://github.com/dsfox-idea/brave-core" style="color:#7f8bb0">sources</a> · <a href="/code-signing.html" style="color:#7f8bb0">code signing</a></div>
 </body>
 </html>
