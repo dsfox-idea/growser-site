@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Growser — how updates work</title>
+<meta name="description" content="How Growser updates arrive on Windows and macOS, what is signed and what is not, and where the Sparkle appcast lives." />
+<style>
+  :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body {
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: radial-gradient(1200px 820px at 50% -8%, #2a2c5a 0%, #171a3d 46%, #0a0b1e 100%);
+    background-attachment: fixed;
+    min-height:100%; padding:48px 24px 80px; line-height:1.65;
+  }
+  .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-260px;
+    transform:translateX(-50%); pointer-events:none;
+    background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
+  .wrap { position:relative; z-index:1; max-width:760px; margin:0 auto; }
+  a { color: var(--green-bright); }
+  h1 { font-size: clamp(30px, 6vw, 46px); font-weight:800; letter-spacing:-.02em; margin-bottom:8px; }
+  h1 .g { color: var(--green); }
+  h2 { font-size:20px; font-weight:700; margin:34px 0 10px; color:#dbe6ff; }
+  p, li { color:#c4cfef; font-size:16px; }
+  ul { margin:10px 0 0 22px; }
+  li { margin-bottom:6px; }
+  .lede { color:#b9c4e6; font-size:18px; margin-bottom:6px; }
+  table { border-collapse:collapse; margin-top:12px; width:100%; }
+  th, td { text-align:left; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,.10); font-size:15px; vertical-align:top; }
+  th { color:#9fb0da; font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+  code { background:rgba(255,255,255,.07); padding:2px 6px; border-radius:4px; font-size:14px; }
+  .note { margin-top:14px; padding:12px 16px; font-size:14px; color:#9aa7cc;
+    border:1px solid rgba(255,255,255,.10); border-radius:10px; }
+  .note b { color:#c9d5f5; }
+  .back { display:inline-block; margin-bottom:24px; font-size:14px; color:#9fb0da; text-decoration:none; }
+  .foot { margin-top:48px; font-size:12px; color:#7f8bb0; }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+
+  <a class="back" href="/">&larr; back to the download</a>
+  <h1><span class="g">G</span>rowser — how updates work</h1>
+  <p class="lede">What each platform does to keep itself current, in plain terms. No marketing.</p>
+
+  <p>
+    Growser is a Chromium fork, so it inherits Chromium&rsquo;s updater rather
+    than inventing one. What differs between Windows and macOS is how the
+    browser is delivered and what the operating system does with an unsigned
+    binary. Both are described below &mdash; including where each path is not
+    finished yet.
+  </p>
+
+  <h2>Windows</h2>
+  <ul>
+    <li><b>Distribution.</b> The installer is a GitHub release asset
+      (<code>GrowserSetup.exe</code> on
+      <a href="https://github.com/dsfox-idea/brave-core/releases">dsfox-idea/brave-core</a>);
+      its SHA-256 is in the release notes.</li>
+    <li><b>Updates.</b> Chromium&rsquo;s updater (Omaha&nbsp;4) ships inside the
+      installer and registers a scheduled task. It asks
+      <code>https://backend.growser.org/update</code>, which answers the Omaha
+      3.1 protocol from a static manifest. Publishing a release means editing
+      that manifest (see <a href="https://github.com/dsfox-idea/growser/issues/51">#51</a>).</li>
+    <li><b>Signing.</b> None yet. SmartScreen shows &ldquo;Windows protected your
+      PC&rdquo; and the publisher reads as unknown. A free certificate from
+      SignPath Foundation is the path and is now unblocked
+      (<a href="https://github.com/dsfox-idea/growser/issues/75">#75</a>).</li>
+  </ul>
+
+  <h2>macOS</h2>
+  <ul>
+    <li><b>Distribution.</b> An Apple Silicon (arm64) build, ditto-zipped as
+      <code>Growser-mac-arm64.zip</code> on the same GitHub release. Download,
+      unzip, drag <code>Growser.app</code> to <code>/Applications</code>. There
+      is no Intel (x86_64) build yet.</li>
+    <li><b>Updates.</b> The browser ships the same Chromium updater (Omaha&nbsp;4)
+      as Windows, and that is the active updater on macOS by default. A
+      <a href="https://sparkle-project.org/">Sparkle</a> appcast is also hosted
+      as a fallback at the URL compiled into the browser
+      (<code>https://growser.org/sparkle/developer-arm64/appcast.xml</code>); it
+      advertises the same archive the download button serves, signed with our
+      EdDSA key. Verifying the Omaha&nbsp;4 path end-to-end on macOS is still
+      open (<a href="https://github.com/dsfox-idea/growser/issues/51">#51</a>);
+      the Sparkle feed is the part this issue made sure works.</li>
+    <li><b>Signing.</b> None yet &mdash; no Apple Developer ID, so Gatekeeper
+      blocks first open (&ldquo;cannot be opened because the developer cannot be
+      verified&rdquo;). Right-click the app &rarr; <b>Open</b>, or run
+      <code>xattr -cr /Applications/Growser.app</code>. An Apple Developer ID is
+      the path here (SignPath, above, is Windows-only).</li>
+  </ul>
+
+  <div class="note">
+    <b>Why the macOS channel is &ldquo;developer&rdquo;.</b>
+    The appcast path is built from the build&rsquo;s channel, and our releases
+    are non-official (no service keys, no ThinLTO, no exact-SDK gate), so the
+    browser reports its channel as <code>developer</code> &mdash; hence
+    <code>sparkle/developer-arm64/</code>. An official build would report
+    <code>stable</code> and use <code>sparkle/stable-arm64/</code>. The name is
+    honest about what the build is; it is not a &ldquo;dev&rdquo; build in the
+    nightly sense.
+  </div>
+
+  <h2>At a glance</h2>
+  <table>
+    <tr><th></th><th>Windows</th><th>macOS</th></tr>
+    <tr><td>Delivered as</td><td><code>GrowserSetup.exe</code></td><td><code>Growser-mac-arm64.zip</code></td></tr>
+    <tr><td>Active updater</td><td>Omaha&nbsp;4 (Chromium)</td><td>Omaha&nbsp;4 (Chromium)</td></tr>
+    <tr><td>Fallback feed</td><td>&mdash;</td><td>Sparkle appcast (hosted)</td></tr>
+    <tr><td>Update endpoint</td><td colspan="2"><code>https://backend.growser.org/update</code> / <code>/components</code></td></tr>
+    <tr><td>Code-signed</td><td>No (SmartScreen warns)</td><td>No (Gatekeeper warns)</td></tr>
+    <tr><td>Signing path</td><td>SignPath (#75)</td><td>Apple Developer ID</td></tr>
+  </table>
+
+  <p class="foot">Growser is MPL-2.0. Brave and Brave Shields are trademarks of Brave Software, Inc. &middot; <a href="/code-signing.html" style="color:#7f8bb0">code signing policy</a></p>
+</div>
+</body>
+</html>

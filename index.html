@@ -14,14 +14,14 @@
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
     background: radial-gradient(1200px 820px at 50% -8%, #2a2c5a 0%, #171a3d 46%, #0a0b1e 100%);
-    min-height:100%; display:flex; align-items:center; justify-content:center;
-    text-align:center; padding:24px; overflow:hidden;
+    min-height:100%; text-align:center; padding:48px 24px 80px;
+    overflow-y:auto; overflow-x:hidden;
   }
   .stars { position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
   .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-140px;
     transform:translateX(-50%); pointer-events:none;
     background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
-  .wrap { position:relative; z-index:1; }
+  .wrap { position:relative; z-index:1; max-width:640px; margin:0 auto; min-height:calc(100vh - 128px); display:flex; flex-direction:column; justify-content:center; }
   .logo { width:140px; height:140px; margin:0 auto 30px; display:block;
     filter: drop-shadow(0 10px 46px rgba(30,163,98,.55)); animation: float 6s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
@@ -33,11 +33,16 @@
   .dot { width:9px; height:9px; border-radius:50%; background:var(--green-bright);
     box-shadow:0 0 0 0 rgba(47,208,127,.6); animation: pulse 1.8s infinite; }
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(47,208,127,.55)} 70%{box-shadow:0 0 0 14px rgba(47,208,127,0)} 100%{box-shadow:0 0 0 0 rgba(47,208,127,0)} }
-  .foot { position:fixed; bottom:22px; left:0; right:0; z-index:1; font-size:12px; color:#7f8bb0; }
-  .get { margin-top:34px; display:inline-block; padding:15px 34px; border-radius:12px;
+  .foot { position:relative; margin-top:40px; z-index:1; font-size:12px; color:#7f8bb0; }
+  .downloads { margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .get { display:inline-block; padding:15px 34px; border-radius:12px;
     background:var(--green); color:#04120b; font-weight:800; font-size:17px; text-decoration:none;
-    box-shadow:0 10px 34px rgba(30,163,98,.42); transition:transform .15s ease, box-shadow .15s ease; }
+    box-shadow:0 10px 34px rgba(30,163,98,.42); transition:transform .15s ease, box-shadow .15s ease, background .15s ease; }
   .get:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(30,163,98,.55); }
+  .get.alt { background:transparent; color:var(--green-bright); border:1.5px solid rgba(47,208,127,.45); box-shadow:none; }
+  .get.alt:hover { background:rgba(47,208,127,.10); box-shadow:0 8px 24px rgba(30,163,98,.22); }
+  .upd-link { margin-top:18px; font-size:13px; color:#8e9cc4; }
+  .upd-link a { color:#9fb0da; }
   .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
   .meta a { color:#9fb0da; }
   .warn { margin:22px auto 0; max-width:520px; font-size:13px; line-height:1.6; color:#9aa7cc;
@@ -56,19 +61,46 @@
     </svg>
     <h1><span class="g">G</span>rowser</h1>
     <p class="tag">A privacy-first browser.</p>
-    <a class="get" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows</a>
+    <div class="downloads">
+      <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.zip">Download for macOS</a>
+      <a class="get" id="dl-win" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows</a>
+    </div>
     <div class="meta">
-      version 151.1.95.0 · 64-bit · 241 MB ·
+      version 151.1.95.0 ·
       <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v151.1.95.0">release notes and checksum</a>
     </div>
-    <div class="warn">
+    <div class="warn" id="warn-mac">
+      <b>macOS will warn you.</b> This build is not signed with an Apple
+      Developer ID, so Gatekeeper blocks it on first open (&ldquo;cannot be
+      opened because the developer cannot be verified&rdquo;). Right-click the
+      app &rarr; <b>Open</b>, or run
+      <code>xattr -cr /Applications/Growser.app</code>. It is an Apple Silicon
+      (arm64) build. See our <a href="/code-signing.html">code signing policy</a>.
+    </div>
+    <div class="warn" id="warn-win">
       <b>Windows will warn you.</b> This build is not code-signed yet, so
       SmartScreen shows &ldquo;Windows protected your PC&rdquo; and the publisher
       reads as unknown. Choose <b>More info</b> &rarr; <b>Run anyway</b>, or
       check the SHA-256 on the release page first. A certificate is being
       arranged; see our <a href="/code-signing.html">code signing policy</a>.
     </div>
+    <p class="upd-link">How do updates arrive, and what is not signed yet? See <a href="/updates.html">how updates work</a>.</p>
   </div>
-  <div class="foot">© 2026 Growser · growser.org · <a href="https://github.com/dsfox-idea/brave-core" style="color:#7f8bb0">sources</a> · <a href="/code-signing.html" style="color:#7f8bb0">code signing</a></div>
+  <div class="foot">© 2026 Growser · growser.org · <a href="https://github.com/dsfox-idea/brave-core" style="color:#7f8bb0">sources</a> · <a href="/updates.html" style="color:#7f8bb0">updates</a> · <a href="/code-signing.html" style="color:#7f8bb0">code signing</a></div>
+  <script>
+    (function () {
+      var p = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+      var mac = /Mac|iPhone|iPad|iPod/i.test(p);
+      var win = /Win/i.test(p);
+      var macBtn = document.getElementById('dl-mac');
+      var winBtn = document.getElementById('dl-win');
+      var macW = document.getElementById('warn-mac');
+      var winW = document.getElementById('warn-win');
+      if (mac && winBtn) winBtn.classList.add('alt');
+      if (win && macBtn) macBtn.classList.add('alt');
+      if (mac && winW) winW.style.display = 'none';
+      if (win && macW) macW.style.display = 'none';
+    })();
+  </script>
 </body>
 </html>
