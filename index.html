@@ -66,18 +66,12 @@
     <h1><span class="g">G</span>rowser</h1>
     <p class="tag">A privacy-first browser.</p>
     <div class="downloads">
-      <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.zip">Download for macOS</a>
+      <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.zip">Download for macOS (Apple Silicon)</a>
       <a class="get" id="dl-win" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows</a>
     </div>
     <div class="meta">
       version 151.1.95.0 ·
       <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v151.1.95.0">release notes and checksum</a>
-    </div>
-    <div class="note-ok" id="note-mac">
-      <b>macOS — signed &amp; notarized.</b> This build is signed with an Apple
-      Developer ID and notarized by Apple, so Gatekeeper accepts it on first
-      open with no warnings and no extra steps. It is an Apple Silicon (arm64)
-      build. See our <a href="/code-signing.html">code signing policy</a>.
     </div>
     <div class="warn" id="warn-win">
       <b>Windows will warn you.</b> This build is not code-signed yet, so
@@ -96,12 +90,10 @@
       var win = /Win/i.test(p);
       var macBtn = document.getElementById('dl-mac');
       var winBtn = document.getElementById('dl-win');
-      var macW = document.getElementById('note-mac');
       var winW = document.getElementById('warn-win');
       if (mac && winBtn) winBtn.classList.add('alt');
       if (win && macBtn) macBtn.classList.add('alt');
       if (mac && winW) winW.style.display = 'none';
-      if (win && macW) macW.style.display = 'none';
     })();
   </script>
 </body>
