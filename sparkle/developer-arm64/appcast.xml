@@ -11,8 +11,8 @@
       <sparkle:shortVersionString>151.1.95.0</sparkle:shortVersionString>
       <sparkle:os>macos</sparkle:os>
       <enclosure url="https://github.com/dsfox-idea/brave-core/releases/download/v151.1.95.0/Growser-mac-arm64.zip"
-                 sparkle:edSignature="Dt77FJJFAzrmB2pA6iyHhILJotwTUHg0KJSOWCxII2IiUqoQ4m5sUws8d48xlRmZ79BqjfpAQF7bu7TrLRlEAQ=="
-                 length="283627153"
+                 sparkle:edSignature="b+p1cfGuVp7TEw1OAYASGeV0lMc+lrYvIehfV9vq7YxcbbZ45eWxztRKPO2SKIhMLOleqejfKMmZ5Z1J44kNAQ=="
+                 length="283719659"
                  type="application/octet-stream"/>
     </item>
   </channel>
