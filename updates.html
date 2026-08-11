@@ -74,16 +74,18 @@
 
   <h2>macOS</h2>
   <ul>
-    <li><b>Distribution.</b> An Apple Silicon (arm64) build, ditto-zipped as
-      <code>Growser-mac-arm64.zip</code> on the same GitHub release. Download,
-      unzip, drag <code>Growser.app</code> to <code>/Applications</code>. There
-      is no Intel (x86_64) build yet.</li>
+    <li><b>Distribution.</b> An Apple Silicon (arm64) build, packaged as a
+      notarized disk image <code>Growser-mac-arm64.dmg</code> on the same GitHub
+      release. Download, open, drag <code>Growser.app</code> to
+      <code>/Applications</code>. There is no Intel (x86_64) build yet.</li>
     <li><b>Updates.</b> The active updater on macOS is
       <a href="https://sparkle-project.org/">Sparkle</a>: the browser reads a
       signed appcast at the URL compiled into it
       (<code>https://growser.org/sparkle/developer-arm64/appcast.xml</code>),
-      which advertises the same archive the download button serves, signed with
-      our EdDSA key. Chromium&rsquo;s updater (Omaha&nbsp;4) is the long-term
+      which advertises <code>Growser-mac-arm64.zip</code> &mdash; the
+      auto-update archive, ditto-zipped and signed with our EdDSA key &mdash;
+      and installs it in place. The manual download button serves the
+      <code>.dmg</code> above; both carry the same notarized build. Chromium&rsquo;s updater (Omaha&nbsp;4) is the long-term
       plan for parity with Windows but is deferred
       (<a href="https://github.com/dsfox-idea/growser/issues/51">#51</a>), so
       Sparkle is what keeps a running macOS install current today.</li>
@@ -103,7 +105,7 @@
   <h2>At a glance</h2>
   <table>
     <tr><th></th><th>Windows</th><th>macOS</th></tr>
-    <tr><td>Delivered as</td><td><code>GrowserSetup.exe</code></td><td><code>Growser-mac-arm64.zip</code></td></tr>
+    <tr><td>Delivered as</td><td><code>GrowserSetup.exe</code></td><td><code>Growser-mac-arm64.dmg</code></td></tr>
     <tr><td>Active updater</td><td>Omaha&nbsp;4 (Chromium)</td><td>Sparkle (appcast)</td></tr>
     <tr><td>Update endpoint</td><td colspan="2"><code>https://backend.growser.org/update</code> / <code>/components</code></td></tr>
     <tr><td>Code-signed</td><td>No (SmartScreen warns)</td><td>Yes</td></tr>
