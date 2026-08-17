@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Growser — for safe and comfy growsing</title>
 <meta name="description" content="Growser is a Chromium browser for safe and comfy growsing. Download for Windows, or read how it differs from Brave." />
-<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="%2333C57B"/><stop offset="1" stop-color="%23148C50"/></linearGradient></defs><rect width="1024" height="1024" rx="231" fill="url(%23b)"/><path d="M 638.3 331.7 A 220.2 220.2 0 1 0 732.2 512 L 593.9 512" fill="none" stroke="%23FFFFFF" stroke-opacity="0.85" stroke-width="96.3" stroke-linecap="round" stroke-linejoin="round"/></svg>' />
+<link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -21,7 +21,9 @@
     transform:translateX(-50%); pointer-events:none;
     background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
   .wrap { position:relative; z-index:1; max-width:640px; margin:0 auto; min-height:calc(100vh - 128px); display:flex; flex-direction:column; justify-content:center; }
-  .logo { width:140px; height:140px; margin:0 auto 30px; display:block;
+  /* the icon canvas carries macOS margins (832/1024 tile), so the img is
+     sized up to keep the visible tile at ~140px */
+  .logo { width:172px; height:172px; margin:-16px auto 14px; display:block;
     filter: drop-shadow(0 10px 46px rgba(30,163,98,.55)); animation: float 6s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   h1 { font-size: clamp(40px, 9vw, 84px); font-weight:800; letter-spacing:-.02em; }
@@ -56,11 +58,7 @@
 <body>
   <div class="glow"></div>
   <div class="wrap">
-    <svg class="logo" viewBox="96 96 832 832" xmlns="http://www.w3.org/2000/svg" aria-label="Growser">
-      <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#33C57B"/><stop offset="1" stop-color="#148C50"/></linearGradient></defs>
-      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#bg)"/>
-      <path d="M 614.60 365.47 A 178.88 178.88 0 1 0 690.88 512.00 L 578.56 512.00" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <img class="logo" src="growser-appicon.svg" alt="Growser" />
     <h1><span class="g">G</span>rowser</h1>
     <p class="tag">For safe and comfy growsing.</p>
     <div class="downloads">
