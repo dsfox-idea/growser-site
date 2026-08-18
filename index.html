@@ -77,12 +77,18 @@
           <stop offset="0" stop-color="#FFFFFF" stop-opacity=".6"/>
           <stop offset=".4" stop-color="#FFFFFF" stop-opacity="0"/>
         </linearGradient>
+        <!-- Alpha ramp measured off the actual Tahoe dock rendering:
+           ~0.99 at the glyph top, ~0.86 at the crossbar, ~0.67 at the arc
+           bottom — linear 1 -> .65 over the glyph bbox -->
         <linearGradient id="gshade" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
-          <stop offset="1" stop-color="#FFFFFF" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity=".65"/>
         </linearGradient>
         <filter id="gdepth" x="-15%" y="-15%" width="130%" height="140%">
-          <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#06331D" flood-opacity=".42"/>
+          <!-- frosted edge: the dock glyph's 10-90% edge transition measures
+             ~13 units in this 832 coordinate space, i.e. a ~5-unit sigma -->
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="soft"/>
+          <feDropShadow in="soft" dx="0" dy="16" stdDeviation="18" flood-color="#06331D" flood-opacity=".42"/>
         </filter>
       </defs>
       <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#bg)"/>
