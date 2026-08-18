@@ -78,7 +78,8 @@
           <stop offset=".4" stop-color="#FFFFFF" stop-opacity="0"/>
         </linearGradient>
         <linearGradient id="gshade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DDF0E5"/>
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity=".85"/>
         </linearGradient>
         <filter id="gdepth" x="-15%" y="-15%" width="130%" height="140%">
           <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#06331D" flood-opacity=".42"/>
@@ -87,12 +88,9 @@
       <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#bg)"/>
       <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#sheen)"/>
       <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#floor)"/>
-      <!-- Frosted glyph: milky under-stroke, then the lit stroke nudged up —
-         a bottom-edge tint that reads as the dock's top-lit molding -->
-      <g filter="url(#gdepth)">
-        <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" stroke="#BFE3D0" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" stroke="url(#gshade)" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 -6)"/>
-      </g>
+      <!-- Frosted glyph, Tahoe-style: white with an alpha ramp 1 -> .85 top to
+         bottom, so the tile shows through the lower strokes -->
+      <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" filter="url(#gdepth)" stroke="url(#gshade)" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
       <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="none" stroke="url(#rim)" stroke-width="7"/>
     </svg>
     <h1><span class="g">G</span>rowser</h1>
