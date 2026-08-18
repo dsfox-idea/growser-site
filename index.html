@@ -21,9 +21,7 @@
     transform:translateX(-50%); pointer-events:none;
     background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
   .wrap { position:relative; z-index:1; max-width:640px; margin:0 auto; min-height:calc(100vh - 128px); display:flex; flex-direction:column; justify-content:center; }
-  /* the icon canvas carries macOS margins (832/1024 tile), so the img is
-     sized up to keep the visible tile at ~140px */
-  .logo { width:172px; height:172px; margin:-16px auto 14px; display:block;
+  .logo { width:140px; height:140px; margin:0 auto 30px; display:block;
     filter: drop-shadow(0 10px 46px rgba(30,163,98,.55)); animation: float 6s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   h1 { font-size: clamp(40px, 9vw, 84px); font-weight:800; letter-spacing:-.02em; }
@@ -58,7 +56,45 @@
 <body>
   <div class="glow"></div>
   <div class="wrap">
-    <img class="logo" src="growser-appicon.svg" alt="Growser" />
+    <!-- Geometry is 1:1 from growser brand/growser-appicon.svg (the app.icns
+         master); the extra defs reproduce the Tahoe dock "liquid glass" look
+         that macOS applies to the flat icon at render time. -->
+    <svg class="logo" viewBox="96 96 832 832" xmlns="http://www.w3.org/2000/svg" aria-label="Growser">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#33C57B"/><stop offset="1" stop-color="#148C50"/>
+        </linearGradient>
+        <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/>
+          <stop offset=".32" stop-color="#FFFFFF" stop-opacity=".10"/>
+          <stop offset=".58" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+          <stop offset=".6" stop-color="#0A4527" stop-opacity="0"/>
+          <stop offset="1" stop-color="#0A4527" stop-opacity=".26"/>
+        </linearGradient>
+        <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity=".6"/>
+          <stop offset=".4" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gshade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DDF0E5"/>
+        </linearGradient>
+        <filter id="gdepth" x="-15%" y="-15%" width="130%" height="140%">
+          <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#06331D" flood-opacity=".42"/>
+        </filter>
+      </defs>
+      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#bg)"/>
+      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#sheen)"/>
+      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#floor)"/>
+      <!-- Frosted glyph: milky under-stroke, then the lit stroke nudged up —
+         a bottom-edge tint that reads as the dock's top-lit molding -->
+      <g filter="url(#gdepth)">
+        <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" stroke="#BFE3D0" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" stroke="url(#gshade)" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 -6)"/>
+      </g>
+      <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="none" stroke="url(#rim)" stroke-width="7"/>
+    </svg>
     <h1><span class="g">G</span>rowser</h1>
     <p class="tag">For safe and comfy growsing.</p>
     <div class="downloads">
