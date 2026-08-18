@@ -26,7 +26,11 @@
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   h1 { font-size: clamp(40px, 9vw, 84px); font-weight:800; letter-spacing:-.02em; }
   h1 .g { color: var(--green); }
+  h1 .os { color:inherit; text-decoration:none; }
+  h1 .os:hover { color:var(--green-bright); text-decoration:underline;
+    text-decoration-thickness:.06em; text-underline-offset:.12em; }
   .tag { margin-top:14px; font-size: clamp(15px,3.5vw,20px); color:#b9c4e6; font-weight:500; }
+  .tag s { opacity:.55; }
   .soon { margin-top:36px; display:inline-flex; align-items:center; gap:10px;
     font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#9fb0da; }
   .dot { width:9px; height:9px; border-radius:50%; background:var(--green-bright);
@@ -99,8 +103,8 @@
       <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" filter="url(#gdepth)" stroke="url(#gshade)" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
       <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="none" stroke="url(#rim)" stroke-width="7"/>
     </svg>
-    <h1><span class="g">G</span>rowser</h1>
-    <p class="tag">For safe and comfy growsing.</p>
+    <h1><a class="os" href="https://github.com/dsfox-idea/brave-core">opensource</a> <span class="g">G</span>rowser</h1>
+    <p class="tag">For safe and comfy <s>browsing</s> growsing.</p>
     <div class="downloads">
       <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple Silicon)</a>
       <a class="get" id="dl-win" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows</a>
