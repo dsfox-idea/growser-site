@@ -5,14 +5,14 @@
     <description>Growser auto-update feed (developer-arm64 channel). Sparkle is the active macOS updater; Chromium's Omaha 4 is deferred (#51). The archive is signed with an Apple Developer ID and notarized. See https://growser.org/updates.html for how updates arrive on each platform.</description>
     <language>en</language>
     <item>
-      <title>Growser 152.26.824.0</title>
-      <description>Growser 152.26.824.0</description>
-      <sparkle:version>152.26.824.0</sparkle:version>
-      <sparkle:shortVersionString>152.26.824.0</sparkle:shortVersionString>
+      <title>Growser 152.26.825.0</title>
+      <description>Growser 152.26.825.0</description>
+      <sparkle:version>152.26.825.0</sparkle:version>
+      <sparkle:shortVersionString>152.26.825.0</sparkle:shortVersionString>
       <sparkle:os>macos</sparkle:os>
-      <enclosure url="https://github.com/dsfox-idea/brave-core/releases/download/v152.26.824.0/Growser-mac-arm64.zip"
-                 sparkle:edSignature="wJyV9ARVG3C/mG39OxqGYPBgegZOqdimhh3qWJiJgcOwHqy0f9FcwpcinEWfCK6BC067Ch1Ag7kbho6ihL7RCA=="
-                 length="283651830"
+      <enclosure url="https://github.com/dsfox-idea/brave-core/releases/download/v152.26.825.0/Growser-mac-arm64.zip"
+                 sparkle:edSignature="dkiFH49AVHxDo6ZDvshsTkxoe+Fpk/cDNh/fs11slL97z4JjEyif9cpcE52UYVgzE7iyZOiKH6N/4pN/j7KuCw=="
+                 length="283664985"
                  type="application/octet-stream"/>
     </item>
   </channel>
