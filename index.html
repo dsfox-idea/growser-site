@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Growser — for safe and comfy growsing</title>
-<meta name="description" content="Growser is a Chromium browser for safe and comfy growsing. Download for Windows, or read how it differs from Brave." />
+<meta name="description" content="Growser is a Chromium browser for safe and comfy growsing. Get it from the Microsoft Store on Windows, or download the macOS build." />
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
@@ -48,13 +48,6 @@
   .upd-link a { color:#9fb0da; }
   .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
   .meta a { color:#9fb0da; }
-  .warn { margin:22px auto 0; max-width:520px; font-size:13px; line-height:1.6; color:#9aa7cc;
-    border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:12px 16px; text-align:left; }
-  .warn b { color:#c9d5f5; }
-  .note-ok { margin:22px auto 0; max-width:520px; font-size:13px; line-height:1.6; color:#bfe9d4;
-    border:1px solid rgba(47,208,127,.40); border-radius:10px; padding:12px 16px; text-align:left;
-    background:rgba(30,163,98,.10); }
-  .note-ok b { color:#2fd07f; }
 </style>
 </head>
 <body>
@@ -108,22 +101,13 @@
     <div class="downloads">
       <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple Silicon)</a>
       <a class="get" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9">Get it from Microsoft Store</a>
-      <a class="get" id="dl-win" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows (.exe)</a>
     </div>
     <div class="meta">
-      Windows <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v152.26.826.0">152.26.826.0</a> ·
       macOS <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v152.26.825.1">152.26.825.1</a> ·
+      on Windows the Store installs, signs and updates the browser ·
       release notes and checksums are on each release page
     </div>
-    <div class="warn" id="warn-win">
-      <b>Windows will warn you about the direct .exe.</b> That build is not
-      code-signed yet, so SmartScreen shows &ldquo;Windows protected your
-      PC&rdquo; and the publisher reads as unknown. Choose <b>More info</b>
-      &rarr; <b>Run anyway</b>, or check the SHA-256 on the release page first.
-      A certificate is being arranged. The <b>Microsoft Store</b> build has no
-      such warning: it is signed by the Store and updates through it.
-    </div>
-    <p class="upd-link">How do updates arrive, and what is not signed yet? See <a href="/updates.html">how updates work</a>.</p>
+    <p class="upd-link">How do updates arrive on each platform? See <a href="/updates.html">how updates work</a>.</p>
   </div>
   <div class="foot">© 2026 Growser · growser.org · <a href="https://github.com/dsfox-idea/brave-core" style="color:#7f8bb0">sources</a> · <a href="/updates.html" style="color:#7f8bb0">updates</a></div>
   <script>
@@ -132,20 +116,9 @@
       var mac = /Mac|iPhone|iPad|iPod/i.test(p);
       var win = /Win/i.test(p);
       var macBtn = document.getElementById('dl-mac');
-      var winBtn = document.getElementById('dl-win');
       var storeBtn = document.getElementById('dl-store');
-      var winW = document.getElementById('warn-win');
-      if (mac) {
-        if (winBtn) winBtn.classList.add('alt');
-        if (storeBtn) storeBtn.classList.add('alt');
-        if (winW) winW.style.display = 'none';
-      }
-      if (win) {
-        // The Store build is signed and auto-updates - make it the primary
-        // Windows path; the unsigned direct .exe stays as the alternative.
-        if (macBtn) macBtn.classList.add('alt');
-        if (winBtn) winBtn.classList.add('alt');
-      }
+      if (mac && storeBtn) storeBtn.classList.add('alt');
+      if (win && macBtn) macBtn.classList.add('alt');
     })();
   </script>
 <script src="sky.js" defer></script>

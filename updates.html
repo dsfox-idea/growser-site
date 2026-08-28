@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Growser — how updates work</title>
-<meta name="description" content="How Growser updates arrive on Windows and macOS, what is signed and what is not, and where the Sparkle appcast lives." />
+<meta name="description" content="How Growser updates arrive: through the Microsoft Store on Windows, through Sparkle on macOS." />
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
@@ -49,29 +49,29 @@
   <p class="lede">What each platform does to keep itself current, in plain terms. No marketing.</p>
 
   <p>
-    Growser is a Chromium fork, so it inherits Chromium&rsquo;s updater rather
-    than inventing one. What differs between Windows and macOS is how the
-    browser is delivered and what the operating system does with an unsigned
-    binary. Both are described below &mdash; including where each path is not
-    finished yet.
+    Growser is delivered one way per platform: on Windows through the
+    Microsoft Store, on macOS as a notarized download that keeps itself
+    current through Sparkle. Both are described below.
   </p>
 
   <h2>Windows</h2>
   <ul>
-    <li><b>Distribution.</b> The installer is a GitHub release asset
-      (<code>GrowserSetup.exe</code> on
-      <a href="https://github.com/dsfox-idea/brave-core/releases">dsfox-idea/brave-core</a>);
-      its SHA-256 is in the release notes.</li>
-    <li><b>Updates.</b> Chromium&rsquo;s updater (Omaha&nbsp;4) ships inside the
-      installer and registers a scheduled task. It asks
-      <code>https://backend.growser.org/update</code>, which answers the Omaha
-      3.1 protocol from a static manifest. Publishing a release means editing
-      that manifest (see <a href="https://github.com/dsfox-idea/growser/issues/51">#51</a>).</li>
-    <li><b>Signing.</b> None yet. SmartScreen shows &ldquo;Windows protected your
-      PC&rdquo; and the publisher reads as unknown. A free certificate from
-      SignPath Foundation is the path and is now unblocked
-      (<a href="https://github.com/dsfox-idea/growser/issues/75">#75</a>).</li>
+    <li><b>Distribution.</b> The
+      <a href="https://apps.microsoft.com/detail/9P4JQVLX29T9">Microsoft Store</a>
+      is the only channel. The package is MSIX; Microsoft signs it on
+      submission, so there is no SmartScreen warning and the publisher is
+      verified.</li>
+    <li><b>Updates.</b> The Store keeps the browser current the same way it
+      updates every other Store app &mdash; automatically, with no updater of
+      ours running on the machine.</li>
   </ul>
+
+  <div class="note">
+    <b>Had installed the old direct download?</b> <code>GrowserSetup.exe</code>
+    was offered here before the Store listing existed. That channel is closed:
+    direct installs stay on 152.26.826.0 and will not be offered anything
+    newer. Install Growser from the Store to keep receiving updates.
+  </div>
 
   <h2>macOS</h2>
   <ul>
@@ -86,10 +86,7 @@
       which advertises <code>Growser-mac-arm64.zip</code> &mdash; the
       auto-update archive, ditto-zipped and signed with our EdDSA key &mdash;
       and installs it in place. The manual download button serves the
-      <code>.dmg</code> above; both carry the same notarized build. Chromium&rsquo;s updater (Omaha&nbsp;4) is the long-term
-      plan for parity with Windows but is deferred
-      (<a href="https://github.com/dsfox-idea/growser/issues/51">#51</a>), so
-      Sparkle is what keeps a running macOS install current today.</li>
+      <code>.dmg</code> above; both carry the same notarized build.</li>
   </ul>
 
   <div class="note">
@@ -106,11 +103,10 @@
   <h2>At a glance</h2>
   <table>
     <tr><th></th><th>Windows</th><th>macOS</th></tr>
-    <tr><td>Delivered as</td><td><code>GrowserSetup.exe</code></td><td><code>Growser-mac-arm64.dmg</code></td></tr>
-    <tr><td>Active updater</td><td>Omaha&nbsp;4 (Chromium)</td><td>Sparkle (appcast)</td></tr>
-    <tr><td>Update endpoint</td><td colspan="2"><code>https://backend.growser.org/update</code> / <code>/components</code></td></tr>
-    <tr><td>Code-signed</td><td>No (SmartScreen warns)</td><td>Yes</td></tr>
-    <tr><td>Signing path</td><td>SignPath (#75)</td><td>Apple Developer ID</td></tr>
+    <tr><td>Delivered as</td><td>Microsoft Store (MSIX)</td><td><code>Growser-mac-arm64.dmg</code></td></tr>
+    <tr><td>Active updater</td><td>the Store</td><td>Sparkle (appcast)</td></tr>
+    <tr><td>Components endpoint</td><td colspan="2"><code>https://backend.growser.org/components</code> (filter lists, certificates &mdash; both platforms)</td></tr>
+    <tr><td>Code-signed</td><td>Yes (by Microsoft)</td><td>Yes (Developer ID, notarized)</td></tr>
   </table>
 
   <p class="foot">Growser is MPL-2.0. Brave and Brave Shields are trademarks of Brave Software, Inc.</p>
