@@ -107,7 +107,8 @@
     <p class="tag">For safe and comfy <s>browsing</s> growsing.</p>
     <div class="downloads">
       <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple Silicon)</a>
-      <a class="get" id="dl-win" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows</a>
+      <a class="get" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9">Get it from Microsoft Store</a>
+      <a class="get" id="dl-win" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/GrowserSetup.exe">Download for Windows (.exe)</a>
     </div>
     <div class="meta">
       Windows <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v152.26.826.0">152.26.826.0</a> ·
@@ -115,11 +116,12 @@
       release notes and checksums are on each release page
     </div>
     <div class="warn" id="warn-win">
-      <b>Windows will warn you.</b> This build is not code-signed yet, so
-      SmartScreen shows &ldquo;Windows protected your PC&rdquo; and the publisher
-      reads as unknown. Choose <b>More info</b> &rarr; <b>Run anyway</b>, or
-      check the SHA-256 on the release page first. A certificate is being
-      arranged.
+      <b>Windows will warn you about the direct .exe.</b> That build is not
+      code-signed yet, so SmartScreen shows &ldquo;Windows protected your
+      PC&rdquo; and the publisher reads as unknown. Choose <b>More info</b>
+      &rarr; <b>Run anyway</b>, or check the SHA-256 on the release page first.
+      A certificate is being arranged. The <b>Microsoft Store</b> build has no
+      such warning: it is signed by the Store and updates through it.
     </div>
     <p class="upd-link">How do updates arrive, and what is not signed yet? See <a href="/updates.html">how updates work</a>.</p>
   </div>
@@ -131,10 +133,19 @@
       var win = /Win/i.test(p);
       var macBtn = document.getElementById('dl-mac');
       var winBtn = document.getElementById('dl-win');
+      var storeBtn = document.getElementById('dl-store');
       var winW = document.getElementById('warn-win');
-      if (mac && winBtn) winBtn.classList.add('alt');
-      if (win && macBtn) macBtn.classList.add('alt');
-      if (mac && winW) winW.style.display = 'none';
+      if (mac) {
+        if (winBtn) winBtn.classList.add('alt');
+        if (storeBtn) storeBtn.classList.add('alt');
+        if (winW) winW.style.display = 'none';
+      }
+      if (win) {
+        // The Store build is signed and auto-updates - make it the primary
+        // Windows path; the unsigned direct .exe stays as the alternative.
+        if (macBtn) macBtn.classList.add('alt');
+        if (winBtn) winBtn.classList.add('alt');
+      }
     })();
   </script>
 <script src="sky.js" defer></script>
