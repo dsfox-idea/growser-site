@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="yes"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Growser</title>
+    <description>Growser auto-update feed (developer-arm64 channel). Sparkle is the active macOS updater; Chromium's Omaha 4 is deferred (#51). The archive is signed with an Apple Developer ID and notarized. See https://growser.org/updates.html for how updates arrive on each platform.</description>
+    <language>en</language>
+    <item>
+      <title>Growser 153.26.905.1</title>
+      <description>Growser 153.26.905.1</description>
+      <sparkle:version>153.26.905.1</sparkle:version>
+      <sparkle:shortVersionString>153.26.905.1</sparkle:shortVersionString>
+      <sparkle:os>macos</sparkle:os>
+      <enclosure url="https://github.com/dsfox-idea/brave-core/releases/download/v153.26.905.1/Growser-mac-arm64.zip"
+                 sparkle:edSignature="6Am+S0Lfx5hN4Ufj7tve8wbNVpTlqH53C2Hb8Sefk1pWhZEtxr/JTJXnpqqMvbalwm5jWJTWcqGmwhdnpljdAA=="
+                 length="200304492"
+                 type="application/octet-stream"/>
+    </item>
+  </channel>
+</rss>
