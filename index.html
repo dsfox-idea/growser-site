@@ -49,27 +49,60 @@
   .downloads .brk { flex-basis:100%; height:0; order:1; }
   .downloads .get { order:2; }
   .downloads .get:not(.quiet) { order:0; }
-  /* The platforms that are not yours: a link, not a second button. One page,
-     one thing to click. */
-  .get.quiet { padding:6px 0; border-radius:0; background:transparent; box-shadow:none;
-    color:#9fb0da; font-weight:500; font-size:14px;
-    border-bottom:1px solid rgba(159,176,218,.28); }
-  .get.quiet:hover { transform:none; box-shadow:none; color:var(--green-bright);
-    border-bottom-color:rgba(47,208,127,.5); }
+  /* Each button is drawn the way the platform it leads to draws its own,
+     and every number below was read out of that vendor's source rather
+     than remembered. Which means the download button looks different to
+     each visitor - that is the point, not an inconsistency. */
 
-  /* The Microsoft Store link is Microsoft's own badge, unaltered, and never
-     our button: the badge guidelines ask for it wherever a page links to
-     content in the Microsoft Store, and forbid making one of your own. So it
-     carries no background, border or shadow of ours - only a size.
-     48px tall against a documented minimum of 32; the margin is the clear
-     space the guidelines ask for, one quarter of the height. */
+  /* Apple. Measured in apple.com's own main.built.css: `.button` is
+     rgb(0,113,227) with `--sk-button-border-radius: 980px` - a full pill -
+     and the type is the SF Pro Text stack, which -apple-system resolves to
+     on the machines that have it. There is no Apple mark on it: Apple
+     licenses the Apple logo and the Mac logo and permits neither on a web
+     site, so what we may borrow is the shape and the colour. Flat, and it
+     does not lift on hover: apple.com's buttons carry no shadow and do not
+     move, and copying our own habits back onto it would undo the point. */
+  .get.apple { background:#0071e3; color:#fff; border-radius:980px;
+    font-family:-apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight:600; font-size:17px; letter-spacing:-.01em; padding:14px 32px;
+    box-shadow:none; }
+  .get.apple:hover { background:#0076df; box-shadow:none; transform:none; }
+
+  /* GNOME. libadwaita's `.suggested-action` is `--accent-bg-color`, whose
+     default is the palette's blue_3 #3584e4, and `$button_radius: 9px` in
+     _drawing.scss. That is the primary button a Debian or Ubuntu desktop
+     actually draws, and system-ui is how a page asks for the font that
+     desktop draws it in. No distribution logo: naming the format and the
+     distributions is nominative use, a logo would not be. Flat for the same
+     reason as Apple's: _buttons.scss gives buttons an inset border at most,
+     never a drop shadow, and `font-weight: bold` is theirs too. */
+  .get.gnome { background:#3584e4; color:#fff; border-radius:9px;
+    font-family:system-ui, Cantarell, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+    font-weight:700; font-size:16px; padding:15px 32px;
+    box-shadow:none; }
+  .get.gnome:hover { background:#1c71d8; box-shadow:none; transform:none; }
+
+  /* Microsoft. Their badge, unaltered, and never a button of ours: the
+     guidelines ask for the badge wherever a page links to Microsoft Store
+     content and forbid making your own. 48px tall against a documented
+     minimum of 32, and the margin is the clear space they ask for - one
+     quarter of the height. */
   .get.badge, .get.badge:hover { padding:0; background:none; box-shadow:none;
     border:0; border-radius:0; margin:12px; }
   .get.badge img { display:block; height:48px; width:auto; }
-  /* Demoted to a secondary choice it stays a badge and shrinks - to 32px,
-     which is the smallest the guidelines allow this artwork to be. */
-  .get.badge.quiet { margin:0 12px; }
-  .get.badge.quiet img { height:32px; }
+  .get.badge span { display:none; }
+
+  /* The platforms that are not yours: a link, not a second button - the
+     badge included, which is why it carries its own words to fall back to.
+     Last in the file on purpose, so it wins over the three above. */
+  .get.quiet { padding:6px 0; border-radius:0; background:transparent; box-shadow:none;
+    color:#9fb0da; font-weight:500; font-size:14px; letter-spacing:0;
+    font-family:inherit; margin:0;
+    border-bottom:1px solid rgba(159,176,218,.28); }
+  .get.quiet:hover { transform:none; box-shadow:none; background:transparent;
+    color:var(--green-bright); border-bottom-color:rgba(47,208,127,.5); }
+  .get.badge.quiet img { display:none; }
+  .get.badge.quiet span { display:inline; }
   .upd-link { margin-top:18px; font-size:13px; color:#8e9cc4; }
   .upd-link a { color:#9fb0da; }
   .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
@@ -128,9 +161,9 @@
          gets three working downloads rather than none. The script below keeps
          the one that matches the platform and turns the other two into links. -->
     <div class="downloads">
-      <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
-      <a class="get badge" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /></a>
-      <a class="get" id="dl-linux" href="https://growser.org/apt/growser-browser-amd64.deb">Download for Linux (.deb)</a>
+      <a class="get apple" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
+      <a class="get badge" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Download from the Microsoft Store</span></a>
+      <a class="get gnome" id="dl-linux" href="https://growser.org/apt/growser-browser-amd64.deb">Download for Linux (.deb)</a>
       <i class="brk"></i>
     </div>
     <div class="meta">
