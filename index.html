@@ -56,6 +56,20 @@
     border-bottom:1px solid rgba(159,176,218,.28); }
   .get.quiet:hover { transform:none; box-shadow:none; color:var(--green-bright);
     border-bottom-color:rgba(47,208,127,.5); }
+
+  /* The Microsoft Store link is Microsoft's own badge, unaltered, and never
+     our button: the badge guidelines ask for it wherever a page links to
+     content in the Microsoft Store, and forbid making one of your own. So it
+     carries no background, border or shadow of ours - only a size.
+     48px tall against a documented minimum of 32; the margin is the clear
+     space the guidelines ask for, one quarter of the height. */
+  .get.badge, .get.badge:hover { padding:0; background:none; box-shadow:none;
+    border:0; border-radius:0; margin:12px; }
+  .get.badge img { display:block; height:48px; width:auto; }
+  /* Demoted to a secondary choice it stays a badge and shrinks - to 32px,
+     which is the smallest the guidelines allow this artwork to be. */
+  .get.badge.quiet { margin:0 12px; }
+  .get.badge.quiet img { height:32px; }
   .upd-link { margin-top:18px; font-size:13px; color:#8e9cc4; }
   .upd-link a { color:#9fb0da; }
   .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
@@ -114,16 +128,17 @@
          gets three working downloads rather than none. The script below keeps
          the one that matches the platform and turns the other two into links. -->
     <div class="downloads">
-      <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple Silicon)</a>
-      <a class="get" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9">Get it from Microsoft Store</a>
+      <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
+      <a class="get badge" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /></a>
       <a class="get" id="dl-linux" href="https://growser.org/apt/growser-browser-amd64.deb">Download for Linux (.deb)</a>
       <i class="brk"></i>
     </div>
     <div class="meta">
-      Linux: the package adds our repository, so updates arrive with the
-      system&rsquo;s &mdash; Fedora and RHEL take
+      The Linux .deb is for Debian and Ubuntu and adds our
+      repository, so updates arrive with the system&rsquo;s &mdash; Fedora and
+      RHEL take
       <a href="https://growser.org/rpm/growser-browser-x86_64.rpm">the .rpm</a> ·
-      on Windows the Store installs, signs and updates the browser ·
+      on Windows the Microsoft Store installs, signs and updates the browser ·
       <a href="https://github.com/dsfox-idea/brave-core/releases/latest">release notes and checksums</a>
     </div>
     <p class="upd-link">How do updates arrive on each platform? See <a href="/updates.html">how updates work</a>.</p>
