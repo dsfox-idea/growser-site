@@ -109,10 +109,16 @@
   <h2>Linux</h2>
   <ul>
     <li><b>Distribution.</b> A 64-bit package per family, both the same build:
-      <code>growser-browser_&lt;version&gt;_amd64.deb</code> for Debian and
-      Ubuntu, <code>growser-browser-&lt;version&gt;-1.x86_64.rpm</code> for
+      <code>growser_&lt;version&gt;_amd64.deb</code> for Debian and
+      Ubuntu, <code>growser-&lt;version&gt;-1.x86_64.rpm</code> for
       Fedora and RHEL. There is no tarball, Flatpak or AppImage, and no 32-bit
       or ARM build.</li>
+    <li><b>Once the repository is on the machine, it installs by name</b>
+      &mdash; <code>sudo apt install growser</code> or
+      <code>sudo dnf install growser</code> &mdash; and the command that starts
+      it is <code>growser</code>. Before that it will not: no distribution
+      ships a package under this name, so both answer with a plain error and
+      install nothing.</li>
     <li><b>Updates on Fedora and RHEL.</b> Installing the <code>.rpm</code>
       adds our repository and imports our signing key, so from then on the
       browser updates with everything else &mdash; <code>dnf upgrade</code>.
@@ -133,18 +139,18 @@
     On Fedora and RHEL the package writes this for you and this copy is here
     only so you can read it before trusting it; on Debian and Ubuntu it is
     the step above, the one you have to take yourself for now. On Debian and Ubuntu, put our key in
-    <code>/usr/share/keyrings/growser-browser.gpg</code>
-    (<code>curl -fsS https://growser.org/growser-signing-key.pub | sudo gpg --dearmor -o /usr/share/keyrings/growser-browser.gpg</code>)
-    and write <code>/etc/apt/sources.list.d/growser-browser.sources</code>:
+    <code>/usr/share/keyrings/growser.gpg</code>
+    (<code>curl -fsS https://growser.org/growser-signing-key.pub | sudo gpg --dearmor -o /usr/share/keyrings/growser.gpg</code>)
+    and write <code>/etc/apt/sources.list.d/growser.sources</code>:
     <br><code>Types: deb</code>
     <br><code>URIs: https://growser.org/apt/</code>
     <br><code>Suites: stable</code>
     <br><code>Components: main</code>
     <br><code>Architectures: amd64</code>
-    <br><code>Signed-By: /usr/share/keyrings/growser-browser.gpg</code>
-    <br><br>On Fedora and RHEL, <code>/etc/yum.repos.d/growser-browser.repo</code>:
-    <br><code>[growser-browser]</code>
-    <br><code>name=growser-browser</code>
+    <br><code>Signed-By: /usr/share/keyrings/growser.gpg</code>
+    <br><br>On Fedora and RHEL, <code>/etc/yum.repos.d/growser.repo</code>:
+    <br><code>[growser]</code>
+    <br><code>name=growser</code>
     <br><code>baseurl=https://growser.org/rpm/stable/x86_64</code>
     <br><code>enabled=1</code>
     <br><code>gpgcheck=1</code>
