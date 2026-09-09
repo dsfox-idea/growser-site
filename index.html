@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Growser — for safe and comfy growsing</title>
-<meta name="description" content="Growser is a Chromium browser for safe and comfy growsing. Get it from the Microsoft Store on Windows, or download the macOS build." />
+<meta name="description" content="Growser is a Chromium browser for safe and comfy growsing. Get it from the Microsoft Store on Windows, or download the build for macOS or Linux." />
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
@@ -37,13 +37,25 @@
     box-shadow:0 0 0 0 rgba(47,208,127,.6); animation: pulse 1.8s infinite; }
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(47,208,127,.55)} 70%{box-shadow:0 0 0 14px rgba(47,208,127,0)} 100%{box-shadow:0 0 0 0 rgba(47,208,127,0)} }
   .foot { position:relative; margin-top:40px; z-index:1; font-size:12px; color:#7f8bb0; }
-  .downloads { margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .downloads { margin-top:34px; display:flex; gap:14px; justify-content:center;
+    align-items:center; flex-wrap:wrap; }
   .get { display:inline-block; padding:15px 34px; border-radius:12px;
     background:var(--green); color:#04120b; font-weight:800; font-size:17px; text-decoration:none;
     box-shadow:0 10px 34px rgba(30,163,98,.42); transition:transform .15s ease, box-shadow .15s ease, background .15s ease; }
   .get:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(30,163,98,.55); }
-  .get.alt { background:transparent; color:var(--green-bright); border:1.5px solid rgba(47,208,127,.45); box-shadow:none; }
-  .get.alt:hover { background:rgba(47,208,127,.10); box-shadow:0 8px 24px rgba(30,163,98,.22); }
+  /* The button takes a row of its own and the other platforms sit under it,
+     whichever one the script picks. Without the break the three share a row,
+     wrap two-and-one, and the button lands off-centre. */
+  .downloads .brk { flex-basis:100%; height:0; order:1; }
+  .downloads .get { order:2; }
+  .downloads .get:not(.quiet) { order:0; }
+  /* The platforms that are not yours: a link, not a second button. One page,
+     one thing to click. */
+  .get.quiet { padding:6px 0; border-radius:0; background:transparent; box-shadow:none;
+    color:#9fb0da; font-weight:500; font-size:14px;
+    border-bottom:1px solid rgba(159,176,218,.28); }
+  .get.quiet:hover { transform:none; box-shadow:none; color:var(--green-bright);
+    border-bottom-color:rgba(47,208,127,.5); }
   .upd-link { margin-top:18px; font-size:13px; color:#8e9cc4; }
   .upd-link a { color:#9fb0da; }
   .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
@@ -98,27 +110,47 @@
     </svg>
     <h1><a class="os" href="https://github.com/dsfox-idea/brave-core">opensource</a> <span class="g">G</span>rowser</h1>
     <p class="tag">For safe and comfy <s>browsing</s> growsing.</p>
+    <!-- All three are buttons in the markup, so a reader with no JavaScript
+         gets three working downloads rather than none. The script below keeps
+         the one that matches the platform and turns the other two into links. -->
     <div class="downloads">
       <a class="get" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple Silicon)</a>
       <a class="get" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9">Get it from Microsoft Store</a>
+      <a class="get" id="dl-linux" href="https://growser.org/apt/growser-browser-amd64.deb">Download for Linux (.deb)</a>
+      <i class="brk"></i>
     </div>
     <div class="meta">
-      macOS <a href="https://github.com/dsfox-idea/brave-core/releases/tag/v152.26.825.1">152.26.825.1</a> ·
+      Linux: the package adds our repository, so updates arrive with the
+      system&rsquo;s &mdash; Fedora and RHEL take
+      <a href="https://growser.org/rpm/growser-browser-x86_64.rpm">the .rpm</a> ·
       on Windows the Store installs, signs and updates the browser ·
-      release notes and checksums are on each release page
+      <a href="https://github.com/dsfox-idea/brave-core/releases/latest">release notes and checksums</a>
     </div>
     <p class="upd-link">How do updates arrive on each platform? See <a href="/updates.html">how updates work</a>.</p>
   </div>
   <div class="foot">© 2026 Growser · growser.org · <a href="https://github.com/dsfox-idea/brave-core" style="color:#7f8bb0">sources</a> · <a href="/updates.html" style="color:#7f8bb0">updates</a></div>
   <script>
     (function () {
-      var p = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
-      var mac = /Mac|iPhone|iPad|iPod/i.test(p);
-      var win = /Win/i.test(p);
-      var macBtn = document.getElementById('dl-mac');
-      var storeBtn = document.getElementById('dl-store');
-      if (mac && storeBtn) storeBtn.classList.add('alt');
-      if (win && macBtn) macBtn.classList.add('alt');
+      var ua = navigator.userAgent || "";
+      var p = (navigator.userAgentData && navigator.userAgentData.platform)
+              || navigator.platform || "";
+      var mine = null;
+      // Order matters. Android reports "Linux armv8l" as its platform and
+      // modern iPhones and iPads report a Mac one, so both have to be ruled
+      // out before either of those tests runs - otherwise a phone is offered
+      // a desktop build that cannot run on it. We have no build for either,
+      // and saying nothing is the honest answer.
+      if (/Android|iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)) mine = null;
+      else if (/Mac/i.test(p)) mine = 'dl-mac';
+      else if (/Win/i.test(p)) mine = 'dl-store';
+      else if (/Linux|X11|CrOS/i.test(p)) mine = 'dl-linux';
+      // Nothing recognised: leave all three as they are. A page that cannot
+      // tell must not pick for the reader.
+      if (!mine) return;
+      ['dl-mac', 'dl-store', 'dl-linux'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el && id !== mine) el.classList.add('quiet');
+      });
     })();
   </script>
 <script src="sky.js" defer></script>
