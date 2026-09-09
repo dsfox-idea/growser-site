@@ -51,8 +51,8 @@
   <p>
     Growser is delivered one way per platform: on Windows through the
     Microsoft Store, on macOS as a notarized download that keeps itself
-    current through Sparkle, on Linux as a package that adds our repository
-    and then updates with everything else on the machine. All three are
+    current through Sparkle, on Linux as a package that updates from our
+    repository along with everything else on the machine. All three are
     described below.
   </p>
 
@@ -113,17 +113,26 @@
       Ubuntu, <code>growser-browser-&lt;version&gt;-1.x86_64.rpm</code> for
       Fedora and RHEL. There is no tarball, Flatpak or AppImage, and no 32-bit
       or ARM build.</li>
-    <li><b>Updates.</b> Installing the package adds our repository and our
-      signing key to the system, so from then on the browser updates with
-      everything else &mdash; <code>apt upgrade</code> or
-      <code>dnf upgrade</code>. Nothing of ours runs in the background: the
-      package installs no updater and no cron job.</li>
+    <li><b>Updates on Fedora and RHEL.</b> Installing the <code>.rpm</code>
+      adds our repository and imports our signing key, so from then on the
+      browser updates with everything else &mdash; <code>dnf upgrade</code>.
+      Nothing of ours runs in the background: the package installs no updater
+      and no cron job.</li>
+    <li><b>Updates on Debian and Ubuntu &mdash; add the repository yourself
+      for now.</b> The <code>.deb</code> does not yet do it: the code that
+      would is disabled upstream, where it would have added Google&rsquo;s
+      repository rather than ours, and our own repository has been sitting
+      behind that switch. So a <code>.deb</code> installed on its own will
+      never be offered an update. Until it is fixed, add the repository by
+      hand with the block below and <code>apt upgrade</code> works normally.
+      This is our defect, not Debian&rsquo;s, and it is on the tracker.</li>
   </ul>
 
   <div class="note">
-    <b>The repository, if you would rather add it by hand.</b>
-    The packages write exactly this for you; it is here so you can read it
-    before trusting it. On Debian and Ubuntu, put our key in
+    <b>The repository, by hand.</b>
+    On Fedora and RHEL the package writes this for you and this copy is here
+    only so you can read it before trusting it; on Debian and Ubuntu it is
+    the step above, the one you have to take yourself for now. On Debian and Ubuntu, put our key in
     <code>/usr/share/keyrings/growser-browser.gpg</code>
     (<code>curl -fsS https://growser.org/growser-signing-key.pub | sudo gpg --dearmor -o /usr/share/keyrings/growser-browser.gpg</code>)
     and write <code>/etc/apt/sources.list.d/growser-browser.sources</code>:
@@ -151,7 +160,7 @@
   <table>
     <tr><th></th><th>Windows</th><th>macOS</th><th>Linux</th></tr>
     <tr><td>Delivered as</td><td>Microsoft Store (MSIX)</td><td><code>Growser-mac-arm64.dmg</code></td><td><code>.deb</code> / <code>.rpm</code></td></tr>
-    <tr><td>Active updater</td><td>the Microsoft Store</td><td>Sparkle (appcast)</td><td>apt / dnf, from our repository</td></tr>
+    <tr><td>Active updater</td><td>the Microsoft Store</td><td>Sparkle (appcast)</td><td>dnf, from our repository; apt once you add it (above)</td></tr>
     <tr><td>Components endpoint</td><td colspan="3"><code>https://backend.growser.org/components</code> (filter lists, certificates &mdash; every platform)</td></tr>
     <tr><td>Code-signed</td><td>Yes (by Microsoft)</td><td>Yes (Developer ID, notarized)</td><td>Yes (our OpenPGP key, above)</td></tr>
   </table>
