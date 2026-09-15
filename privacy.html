@@ -1,15 +1,48 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Growser — политика конфиденциальности</title>
-<meta name="description" content="Что Growser отправляет с вашего устройства, куда именно, зачем и что при этом сохраняется. Поимённо, без общих слов." />
+<title>Growser — privacy policy</title>
+<meta name="description" content="What leaves your device, where exactly it goes, and what is kept. By name." />
+<meta name="title-ru" content="Growser — политика конфиденциальности" />
+<meta name="description-ru" content="Что уходит с вашего устройства, куда именно и что при этом сохраняется. Поимённо." />
+<script>
+  // Both languages live in this page and one is shown. The choice comes from
+  // the browser's own preference list - what it sends as Accept-Language -
+  // because this site is static files and there is no server to negotiate
+  // with. In the head on purpose: it runs before the body is parsed, so
+  // nothing flashes. With JavaScript off, the English half is the visible one.
+  (function () {
+    var langs = (navigator.languages && navigator.languages.length)
+      ? navigator.languages : [navigator.language || ''];
+    for (var i = 0; i < langs.length; i++) {
+      var tag = String(langs[i]).toLowerCase();
+      if (tag.indexOf('ru') === 0) {
+        document.documentElement.className += ' ru';
+        document.documentElement.lang = 'ru';
+        var t = document.querySelector('meta[name="title-ru"]');
+        var d = document.querySelector('meta[name="description-ru"]');
+        if (t) { document.title = t.content; }
+        if (d) {
+          var live = document.querySelector('meta[name="description"]');
+          if (live) { live.content = d.content; }
+        }
+        return;
+      }
+      if (tag) return;
+    }
+  })();
+</script>
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
   * { margin:0; padding:0; box-sizing:border-box; }
+  /* The gradient is attached to the viewport, so the colour underneath it
+     has to be dark too: past the first screen the canvas is otherwise the
+     browser's own white, with light text on it. */
   html,body { height:100%; }
+  html { background-color:#010207; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
@@ -20,6 +53,7 @@
   .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-260px;
     transform:translateX(-50%); pointer-events:none;
     background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
+  html.ru main[lang="en"], html:not(.ru) main[lang="ru"] { display:none; }
   .wrap { position:relative; z-index:1; max-width:1120px; margin:0 auto; }
   a { color: var(--green-bright); }
   h1 { font-size: clamp(30px, 6vw, 46px); font-weight:800; letter-spacing:-.02em; margin-bottom:8px; }
@@ -42,9 +76,174 @@
 </head>
 <body>
 <div class="glow"></div>
-<div class="wrap">
+<main lang="en" class="wrap">
 
-  <a class="back" href="/">&larr; к загрузке</a>
+  <a class="back" href="/">&larr; to the download</a>
+  <h1><span class="g">G</span>rowser — privacy policy</h1>
+  <p class="lede">What leaves your device, where exactly it goes, and what is kept. By name.</p>
+
+  <p>
+    Growser is a Chromium browser. Chromium reaches out to Google's services by
+    default; in this build those calls are either removed or routed through our
+    proxy, so that your device's address does not reach a third party. Below is
+    everything the browser sends out and everything that is kept at our end. The
+    list is complete: if a feature is not here, it sends nothing.
+  </p>
+
+  <h2>In short</h2>
+  <ul>
+    <li>There are no accounts: there is nowhere and nothing to register with.</li>
+    <li>There is no telemetry — it is removed at build time, not switched off with a setting.</li>
+    <li>There is no advertising, we build no profile of you, and we sell or hand over nothing to anyone beyond the services listed below, and only for the feature you asked for.</li>
+    <li><b>backend.growser.org</b> is our proxy, and it exists for exactly one
+        reason: so that outside services see it instead of you. It keeps no
+        request logs and shares nothing with anyone.</li>
+    <li>History, bookmarks, passwords, cookies and downloads are kept on your device only. We have no access to them: they are not sent anywhere, and this build has no sync.</li>
+  </ul>
+
+  <h2>What leaves the device</h2>
+
+  <table>
+    <tr><th>When</th><th>Where</th><th>What exactly</th></tr>
+
+    <tr>
+      <td>The browser crashed and you allowed sending</td>
+      <td><code>growser-crashes.humans.top</code> — our server</td>
+      <td>A minidump: a snapshot of the crashed process's memory — the call stack, the registers and fragments of what was in memory at that moment. In some cases the address of an open page, or part of its content, can end up in it. Plus the browser and operating system versions.</td>
+    </tr>
+
+    <tr>
+      <td>You pressed "Translate page"</td>
+      <td><code>backend.growser.org</code>, and from there Yandex Translate</td>
+      <td>The text of the page being translated. Only on your action: without the press, nothing is sent.</td>
+    </tr>
+
+    <tr>
+      <td>Opening sites, with protection from dangerous sites on</td>
+      <td><code>backend.growser.org</code>, and from there Google Safe Browsing</td>
+      <td>Prefixes of address hashes, not the addresses themselves. That is how the protocol works: a prefix cannot be turned back into the page you opened.</td>
+    </tr>
+
+    <tr>
+      <td>Drawing site icons in history, bookmarks and on the new tab page</td>
+      <td><code>backend.growser.org</code>, and from there <code>gstatic.com</code></td>
+      <td>The addresses of the sites whose icons are needed. That reveals which sites you have saved — which is why the request goes through the proxy, and your device's address never reaches Google.</td>
+    </tr>
+
+    <tr>
+      <td>Updating filter lists and internal components</td>
+      <td><code>backend.growser.org</code>, and from there Google's servers; filter lists come from their publishers' own servers</td>
+      <td>The versions of the components installed and the requests to download new ones. No page addresses and no content.</td>
+    </tr>
+
+    <tr>
+      <td>Filling in forms (the structure of the fields)</td>
+      <td><code>backend.growser.org</code>, and from there <code>gstatic.com</code></td>
+      <td>A description of the form's structure. The values you typed are not sent.</td>
+    </tr>
+
+    <tr>
+      <td>Checking for browser updates</td>
+      <td>Windows — the Microsoft Store; macOS — <code>growser.org</code></td>
+      <td>The current browser version. On Windows the Store delivers updates; the build itself has no self-update mechanism.</td>
+    </tr>
+
+    <tr>
+      <td>Search and address-bar suggestions</td>
+      <td>The search engine you chose (DuckDuckGo by default)</td>
+      <td>What you typed. This is an ordinary search request, and the search engine receives it, not us.</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <b>Why backend.growser.org appears in the table so often.</b> It is our
+    proxy, and it stands between you and the outside services for one purpose —
+    to keep you out of their view. In every case listed, Google and Yandex see a
+    request from our address rather than yours, and get nothing that could tie
+    the request to a particular person. The proxy itself keeps no request logs
+    and passes that information to nobody: not to advertising networks, not to
+    analytics services, not to partners — the project has none of the three.
+  </div>
+
+  <h2>What the proxy sees, and what we keep</h2>
+  <p>
+    The proxy runs on Cloudflare Workers. Cloudflare acts as a transit operator
+    there and, like any such operator, sees the connection's IP address; that is
+    covered by <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare's
+    policy</a>. Further along the chain your address no longer travels.
+  </p>
+  <p>
+    In that proxy we record only the request method, the path, the response code
+    and the number of fragments translated. No IP addresses, no page addresses
+    and no request content go into the record, and there is no permanent storage
+    of these records: they are visible in the live stream while debugging and
+    are exported nowhere.
+  </p>
+  <p>
+    Crash reports are the only thing we keep. They sit on our GlitchTip server
+    and are deleted after 90 days.
+  </p>
+
+  <h2>Crash reports: your choice</h2>
+  <p>
+    On the first screen after installation the browser asks whether to send
+    crash reports. The box is ticked, and it is visible before you press
+    anything else; clearing it takes one movement. You can change your mind at
+    any time: Settings → Privacy and security → Data collection → Automatically
+    send diagnostic data.
+  </p>
+  <p>
+    Until you answer, nothing is sent. In a managed environment an administrator
+    can forbid sending by policy, and that overrides your choice in both
+    directions.
+  </p>
+  <p>
+    This applies to Windows (builds 152.26.824.1 and newer) and to macOS
+    (152.26.825.0 and newer). In earlier builds reports were sent by default,
+    without the question.
+  </p>
+
+  <h2>What we are not responsible for</h2>
+  <ul>
+    <li><b>The sites you open.</b> What they collect and how they use it is described in their policies, not in this one. The browser only shows what you asked it to open.</li>
+    <li><b>Extensions.</b> That is third-party code: by installing an extension you give it access to what it asked for. We do not review it and are not responsible for how it behaves.</li>
+    <li><b>The search engine you chose.</b> It receives your queries directly.</li>
+    <li><b>The operating system.</b> Growser stores passwords using your OS and the rules of its secure store.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>
+    Growser is not directed at children specifically and does not collect
+    information about anyone's age.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    This page changes along with the browser. If something that sends data
+    disappears from it or appears in it, the text above changes too and the date
+    at the bottom is updated. Substantial changes are called out separately in
+    the release notes.
+  </p>
+
+  <h2>Questions</h2>
+  <p>
+    Write to <a href="mailto:support@growser.org">support@growser.org</a>. If you
+    want to know what we hold about you, the answer is almost certainly "nothing,
+    except possibly a crash report" — and we will delete such a report at your
+    request, if we can find it by its time and version.
+  </p>
+
+  <div class="note">
+    <b>Why in this much detail.</b> None of it has to be taken on trust: the
+    browser is built from open sources, and the proxy is one small file sitting
+    beside them. The list above was compiled from the code, not from memory.
+  </div>
+
+  <p class="foot">Updated 24 August 2026. This English text is a translation; the Russian version is the one written first.</p>
+</main>
+
+<main lang="ru" class="wrap">
+<a class="back" href="/">&larr; к загрузке</a>
   <h1><span class="g">G</span>rowser — политика конфиденциальности</h1>
   <p class="lede">Что уходит с вашего устройства, куда именно и что при этом сохраняется. Поимённо.</p>
 
@@ -209,7 +408,7 @@
   </div>
 
   <p class="foot">Обновлено 24 августа 2026 года.</p>
+</main>
 
-</div>
 </body>
 </html>

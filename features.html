@@ -1,15 +1,48 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Growser — что делают настройки</title>
-<meta name="description" content="Короткие объяснения к настройкам Growser: щиты, фильтры, De-AMP, редиректы, контейнеры, расширения, отчёты о сбоях." />
+<title>Growser — what the settings do</title>
+<meta name="description" content="Short answers for the Growser settings people ask about: shields, filters, De-AMP, redirects, containers, extensions, crash reports." />
+<meta name="title-ru" content="Growser — что делают настройки" />
+<meta name="description-ru" content="Короткие объяснения к настройкам Growser: щиты, фильтры, De-AMP, редиректы, контейнеры, расширения, отчёты о сбоях." />
+<script>
+  // Both languages live in this page and one is shown. The choice comes from
+  // the browser's own preference list - what it sends as Accept-Language -
+  // because this site is static files and there is no server to negotiate
+  // with. In the head on purpose: it runs before the body is parsed, so
+  // nothing flashes. With JavaScript off, the English half is the visible one.
+  (function () {
+    var langs = (navigator.languages && navigator.languages.length)
+      ? navigator.languages : [navigator.language || ''];
+    for (var i = 0; i < langs.length; i++) {
+      var tag = String(langs[i]).toLowerCase();
+      if (tag.indexOf('ru') === 0) {
+        document.documentElement.className += ' ru';
+        document.documentElement.lang = 'ru';
+        var t = document.querySelector('meta[name="title-ru"]');
+        var d = document.querySelector('meta[name="description-ru"]');
+        if (t) { document.title = t.content; }
+        if (d) {
+          var live = document.querySelector('meta[name="description"]');
+          if (live) { live.content = d.content; }
+        }
+        return;
+      }
+      if (tag) return;
+    }
+  })();
+</script>
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
   * { margin:0; padding:0; box-sizing:border-box; }
+  /* The gradient is attached to the viewport, so the colour underneath it
+     has to be dark too: past the first screen the canvas is otherwise the
+     browser's own white, with light text on it. */
   html,body { height:100%; }
+  html { background-color:#010207; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
@@ -20,6 +53,7 @@
   .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-260px;
     transform:translateX(-50%); pointer-events:none;
     background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
+  html.ru main[lang="en"], html:not(.ru) main[lang="ru"] { display:none; }
   .wrap { position:relative; z-index:1; max-width:760px; margin:0 auto; }
   a { color: var(--green-bright); }
   h1 { font-size: clamp(30px, 6vw, 46px); font-weight:800; letter-spacing:-.02em; margin-bottom:8px; }
@@ -37,9 +71,110 @@
 </head>
 <body>
 <div class="glow"></div>
-<div class="wrap">
+<main lang="en" class="wrap">
 
-  <h1><span class="g">G</span>rowser — что делают настройки</h1>
+  <h1><span class="g">G</span>rowser — what the settings do</h1>
+  <p class="lede">Short answers for the switches people ask about most.</p>
+
+  <div class="toc">
+    <a href="#shields">Shields</a>
+    <a href="#adblock-only">Blocking only</a>
+    <a href="#custom-filters">Your own filters</a>
+    <a href="#de-amp">De-AMP</a>
+    <a href="#debounce">Redirects</a>
+    <a href="#containers">Containers</a>
+    <a href="#extensions-mv2">MV2 extensions</a>
+    <a href="#crash-reports">Crash reports</a>
+    <a href="#privacy">What we collect</a>
+  </div>
+
+  <h2 id="shields">Shields</h2>
+  <p>
+    Shields block advertising and trackers on the pages you open. The icon in
+    the address bar shows how much was blocked on the site in front of you and
+    lets you turn the protection off for that one site &mdash; which leaves
+    every other site as it was.
+  </p>
+  <p>
+    The filter lists come straight from the people who maintain them (EasyList
+    and the other publishers) rather than through Brave's infrastructure: a
+    fork has no service key of theirs, and subscriptions pointed at the
+    original sources work without one.
+  </p>
+
+  <h2 id="adblock-only">Blocking-only mode</h2>
+  <p>
+    A narrowed version of Shields: the advertising and tracker blocking stays,
+    the more aggressive protections switch off. It exists for sites that break
+    under the full set &mdash; instead of turning Shields off altogether, you
+    give up less.
+  </p>
+
+  <h2 id="custom-filters">Your own filter lists</h2>
+  <p>
+    You can add rules of your own &mdash; the syntax is the one Adblock Plus
+    and uBlock Origin use &mdash; and subscribe to somebody else's list by its
+    address. Subscriptions update straight from the address you gave, and from
+    nowhere else.
+  </p>
+
+  <h2 id="de-amp">De-AMP</h2>
+  <p>
+    "Prefer the publisher's own page address over AMP and similar versions."
+    An AMP page is served by an intermediary rather than by the site you meant
+    to visit; with De-AMP on, the browser goes to the publisher's page directly
+    wherever it can.
+  </p>
+
+  <h2 id="debounce">Skipping tracking redirects</h2>
+  <p>
+    Plenty of links do not lead where they say they do: they go to an
+    in-between address that records the click and only then sends you on. This
+    setting skips those intermediate steps and opens the destination itself.
+  </p>
+
+  <h2 id="containers">Containers</h2>
+  <p>
+    Containers are tabs marked with a colour that keep their own cookies, cache
+    and site storage. The same site opened in two containers cannot tell that
+    it is the same person. Deleting a container deletes everything it held.
+  </p>
+
+  <h2 id="extensions-mv2">Manifest V2 extensions</h2>
+  <p>
+    Chromium is winding down support for the second manifest version, and in
+    the third one what a blocker may do is cut back considerably. This setting
+    keeps the MV2 extensions you have installed working.
+  </p>
+
+  <h2 id="crash-reports">Crash reports</h2>
+  <p>
+    If the browser crashes it can send a dump &mdash; the call stack at the
+    moment it failed, not the contents of your tabs. Reports go to a server of
+    ours and nowhere else. The switch is offered on the first run and lives in
+    the settings afterwards.
+  </p>
+
+  <h2 id="privacy">What we collect</h2>
+  <p>
+    Nothing, apart from crash reports if you have not turned them off.
+    Telemetry, the advertising system and Brave's daily ping are removed from
+    this build rather than switched off with a toggle. You do not have to take
+    that on trust:
+    <a href="https://github.com/dsfox-idea/brave-core">the sources are open</a>,
+    and the build carries checks that fail if a new foreign address appears in
+    the binary.
+  </p>
+
+  <p>
+    Separately: <a href="/updates.html">how updates work</a>.
+  </p>
+
+  <p class="foot">Growser is MPL-2.0. Brave and Brave Shields are trademarks of Brave Software, Inc.</p>
+</main>
+
+<main lang="ru" class="wrap">
+<h1><span class="g">G</span>rowser — что делают настройки</h1>
   <p class="lede">Короткие объяснения к тем переключателям, о которых чаще всего спрашивают.</p>
 
   <div class="toc">
@@ -132,7 +267,8 @@
   </p>
 
   <p class="foot">Growser распространяется под MPL-2.0. Brave и Brave Shields — товарные знаки Brave Software, Inc.</p>
-</div>
+</main>
+
 <script src="sky.js" defer></script>
 </body>
 </html>

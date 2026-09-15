@@ -4,7 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Growser — a browser that keeps its distance</title>
-<meta name="description" content="A Chromium browser with no account, no advertising and no telemetry — removed at build time, not switched off in a menu. Ad and tracker blocking on by default. Open source, MPL-2.0." />
+<meta name="description" content="A Chromium browser with no account, no advertising and no telemetry - removed at build time, not switched off in a menu. Ad and tracker blocking on by default. Open source, MPL-2.0." />
+<meta name="title-ru" content="Growser — браузер, который держит дистанцию" />
+<meta name="description-ru" content="Браузер на Chromium без аккаунта, без рекламы и без телеметрии — её нет в сборке, а не выключена в настройках. Реклама и трекеры блокируются с первого запуска. Открытый код, MPL-2.0." />
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <script>
   // The page carries both languages and shows one. Which one is decided from
@@ -21,6 +23,13 @@
       if (tag.indexOf('ru') === 0) {
         document.documentElement.className += ' ru';
         document.documentElement.lang = 'ru';
+        var t = document.querySelector('meta[name="title-ru"]');
+        var d = document.querySelector('meta[name="description-ru"]');
+        if (t) { document.title = t.content; }
+        if (d) {
+          var live = document.querySelector('meta[name="description"]');
+          if (live) { live.content = d.content; }
+        }
         return;
       }
       // The first tag that is a language at all decides; a later Russian

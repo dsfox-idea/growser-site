@@ -5,11 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Growser — how updates work</title>
 <meta name="description" content="How Growser updates arrive: through the Microsoft Store on Windows, through Sparkle on macOS, through our apt and rpm repositories on Linux." />
+<meta name="title-ru" content="Growser — как устроены обновления" />
+<meta name="description-ru" content="Как приходят обновления Growser: на Windows через Microsoft Store, на macOS через Sparkle, на Linux из наших репозиториев apt и rpm." />
+<script>
+  // Both languages live in this page and one is shown. The choice comes from
+  // the browser's own preference list - what it sends as Accept-Language -
+  // because this site is static files and there is no server to negotiate
+  // with. In the head on purpose: it runs before the body is parsed, so
+  // nothing flashes. With JavaScript off, the English half is the visible one.
+  (function () {
+    var langs = (navigator.languages && navigator.languages.length)
+      ? navigator.languages : [navigator.language || ''];
+    for (var i = 0; i < langs.length; i++) {
+      var tag = String(langs[i]).toLowerCase();
+      if (tag.indexOf('ru') === 0) {
+        document.documentElement.className += ' ru';
+        document.documentElement.lang = 'ru';
+        var t = document.querySelector('meta[name="title-ru"]');
+        var d = document.querySelector('meta[name="description-ru"]');
+        if (t) { document.title = t.content; }
+        if (d) {
+          var live = document.querySelector('meta[name="description"]');
+          if (live) { live.content = d.content; }
+        }
+        return;
+      }
+      if (tag) return;
+    }
+  })();
+</script>
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
 <style>
   :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
   * { margin:0; padding:0; box-sizing:border-box; }
+  /* The gradient is attached to the viewport, so the colour underneath it
+     has to be dark too: past the first screen the canvas is otherwise the
+     browser's own white, with light text on it. */
   html,body { height:100%; }
+  html { background-color:#010207; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
@@ -20,6 +53,7 @@
   .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-260px;
     transform:translateX(-50%); pointer-events:none;
     background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
+  html.ru main[lang="en"], html:not(.ru) main[lang="ru"] { display:none; }
   .wrap { position:relative; z-index:1; max-width:760px; margin:0 auto; }
   a { color: var(--green-bright); }
   h1 { font-size: clamp(30px, 6vw, 46px); font-weight:800; letter-spacing:-.02em; margin-bottom:8px; }
@@ -42,9 +76,8 @@
 </head>
 <body>
 <div class="glow"></div>
-<div class="wrap">
-
-  <a class="back" href="/">&larr; back to the download</a>
+<main lang="en" class="wrap">
+<a class="back" href="/">&larr; back to the download</a>
   <h1><span class="g">G</span>rowser — how updates work</h1>
   <p class="lede">What each platform does to keep itself current, in plain terms. No marketing.</p>
 
@@ -158,13 +191,138 @@
   <table>
     <tr><th></th><th>Windows</th><th>macOS</th><th>Linux</th></tr>
     <tr><td>Delivered as</td><td>Microsoft Store (MSIX)</td><td><code>Growser-mac-arm64.dmg</code></td><td><code>.deb</code> / <code>.rpm</code></td></tr>
-    <tr><td>Active updater</td><td>the Microsoft Store</td><td>Sparkle (appcast)</td><td>dnf, from our repository; apt once you add it (above)</td></tr>
+    <tr><td>Active updater</td><td>the Microsoft Store</td><td>Sparkle (appcast)</td><td>apt and dnf, from our repository - the package configures it</td></tr>
     <tr><td>Components endpoint</td><td colspan="3"><code>https://backend.growser.org/components</code> (filter lists, certificates &mdash; every platform)</td></tr>
     <tr><td>Code-signed</td><td>Yes (by Microsoft)</td><td>Yes (Developer ID, notarized)</td><td>Yes (our OpenPGP key, above)</td></tr>
   </table>
 
   <p class="foot">Growser is MPL-2.0. Brave and Brave Shields are trademarks of Brave Software, Inc.</p>
-</div>
+</main>
+
+<main lang="ru" class="wrap">
+
+  <a class="back" href="/">&larr; назад к загрузке</a>
+  <h1><span class="g">G</span>rowser — как устроены обновления</h1>
+  <p class="lede">Что каждая платформа делает, чтобы браузер оставался свежим. Без маркетинга.</p>
+
+  <p>
+    На каждой платформе доставка своя: на Windows — через Microsoft Store, на
+    macOS — нотаризованная загрузка, которая обновляет себя сама через Sparkle,
+    на Linux — пакет, который добавляет наш репозиторий и дальше обновляется
+    вместе со всем остальным на машине. Ниже — про все три.
+  </p>
+
+  <h2>Windows</h2>
+  <ul>
+    <li><b>Доставка.</b> Единственный канал —
+      <a href="https://apps.microsoft.com/detail/9P4JQVLX29T9">Microsoft Store</a>.
+      Пакет в формате MSIX; Microsoft подписывает его при приёме, поэтому
+      SmartScreen не предупреждает, а издатель подтверждён.</li>
+    <li><b>Обновления.</b> Магазин обновляет браузер так же, как любое другое
+      приложение из магазина &mdash; сам, и никакой наш апдейтер на машине не
+      работает.</li>
+  </ul>
+
+  <div class="note">
+    <b>Ставили старую прямую загрузку?</b> <code>GrowserSetup.exe</code>
+    предлагался здесь, пока не появилось приложение в Microsoft Store. Этот
+    канал закрыт: прямые установки остаются на 152.26.826.0, ничего новее им не
+    предложат. Чтобы снова получать обновления, поставьте Growser из Microsoft
+    Store. Сам <code>.exe</code> по-прежнему лежит в каждом
+    <a href="https://github.com/dsfox-idea/brave-core/releases">выпуске на
+    GitHub</a> &mdash; Growser открыт, поэтому любой может собрать его из
+    исходников и сравнить с опубликованным бинарником. Это артефакт для
+    проверки, а не способ установки.
+  </div>
+
+  <h2>macOS</h2>
+  <ul>
+    <li><b>Доставка.</b> Сборка для Apple Silicon (arm64), упакованная в
+      нотаризованный образ <code>Growser-mac-arm64.dmg</code> в том же выпуске
+      на GitHub. Скачать, открыть, перетащить <code>Growser.app</code> в
+      <code>/Applications</code>. Сборки для Intel (x86_64) пока нет.</li>
+    <li><b>Обновления.</b> На macOS работает
+      <a href="https://sparkle-project.org/">Sparkle</a>: браузер читает
+      подписанный appcast по адресу, вшитому в сборку
+      (<code>https://growser.org/sparkle/stable-arm64/appcast.xml</code>), где
+      объявлен <code>Growser-mac-arm64.zip</code> &mdash; архив для
+      автообновления, упакованный через ditto и подписанный нашим ключом
+      EdDSA, &mdash; и ставит его поверх. Кнопка ручной загрузки отдаёт
+      <code>.dmg</code> выше; внутри обоих один и тот же нотаризованный
+      билд.</li>
+  </ul>
+
+  <div class="note">
+    <b>Канал не выбирают — его сообщает сама сборка.</b>
+    Путь к appcast складывается из того, каким каналом браузер себя считает.
+    Раньше выпуски были неофициальными сборками и сообщали
+    <code>developer</code> &mdash; поэтому старые версии спрашивают
+    <code>sparkle/developer-arm64/</code>; после работ по оптимизации и
+    идентичности они официальные, и фид называется <code>stable-arm64</code>.
+    Ни то ни другое не означает «ночную сборку»: и там и там всегда был один и
+    тот же нотаризованный выпуск.
+  </div>
+
+  <h2>Linux</h2>
+  <ul>
+    <li><b>Доставка.</b> По одному 64-битному пакету на семейство, внутри одна
+      и та же сборка: <code>growser_&lt;версия&gt;_amd64.deb</code> для Debian
+      и Ubuntu, <code>growser-&lt;версия&gt;-1.x86_64.rpm</code> для Fedora и
+      RHEL. Ни tarball, ни Flatpak, ни AppImage; 32-битных и ARM-сборок
+      нет.</li>
+    <li><b>Когда репозиторий на машине, ставится по имени</b> &mdash;
+      <code>sudo apt install growser</code> или
+      <code>sudo dnf install growser</code>, &mdash; а запускается командой
+      <code>growser</code>. До этого не поставится: ни один дистрибутив не
+      везёт пакета с таким именем, поэтому обе команды просто ответят ошибкой
+      и ничего не установят.</li>
+    <li><b>Обновления.</b> Установка пакета добавляет наш репозиторий и наш
+      ключ подписи, и дальше браузер обновляется вместе со всем остальным
+      &mdash; <code>apt upgrade</code> или <code>dnf upgrade</code>. Удаление
+      пакета убирает и то и другое. Ничего нашего в фоне не работает: ни
+      апдейтера, ни задания в cron.</li>
+  </ul>
+
+  <div class="note">
+    <b>Репозиторий вручную.</b>
+    На обоих семействах это делает сам пакет; здесь — чтобы можно было
+    прочитать это до того, как довериться, или настроить без установки пакета.
+    На Debian и Ubuntu положите наш ключ в
+    <code>/usr/share/keyrings/growser.gpg</code>
+    (<code>curl -fsS https://growser.org/growser-signing-key.pub | sudo gpg --dearmor -o /usr/share/keyrings/growser.gpg</code>)
+    и напишите <code>/etc/apt/sources.list.d/growser.sources</code>:
+    <br><code>Types: deb</code>
+    <br><code>URIs: https://growser.org/apt/</code>
+    <br><code>Suites: stable</code>
+    <br><code>Components: main</code>
+    <br><code>Architectures: amd64</code>
+    <br><code>Signed-By: /usr/share/keyrings/growser.gpg</code>
+    <br><br>На Fedora и RHEL — <code>/etc/yum.repos.d/growser.repo</code>:
+    <br><code>[growser]</code>
+    <br><code>name=growser</code>
+    <br><code>baseurl=https://growser.org/rpm/stable/x86_64</code>
+    <br><code>enabled=1</code>
+    <br><code>gpgcheck=1</code>
+    <br><code>gpgkey=https://growser.org/growser-signing-key.pub</code>
+    <br><br>Ключ подписи —
+    <a href="/growser-signing-key.pub">growser-signing-key.pub</a>, отпечаток
+    <code>9881 9EF6 618B 88A1 FA27 7488 2DD2 1359 5059 E6FD</code>. Им подписаны
+    <code>Release</code> в apt и каждый <code>.rpm</code>; больше ничего нашего
+    этим ключом не подписано.
+  </div>
+
+  <h2>Коротко</h2>
+  <table>
+    <tr><th></th><th>Windows</th><th>macOS</th><th>Linux</th></tr>
+    <tr><td>Как доставляется</td><td>Microsoft Store (MSIX)</td><td><code>Growser-mac-arm64.dmg</code></td><td><code>.deb</code> / <code>.rpm</code></td></tr>
+    <tr><td>Кто обновляет</td><td>Microsoft Store</td><td>Sparkle (appcast)</td><td>apt и dnf из нашего репозитория — его настраивает сам пакет</td></tr>
+    <tr><td>Адрес компонентов</td><td colspan="3"><code>https://backend.growser.org/components</code> (списки фильтров, сертификаты — на всех платформах)</td></tr>
+    <tr><td>Подписано</td><td>Да (Microsoft)</td><td>Да (Developer ID, нотаризовано)</td><td>Да (наш ключ OpenPGP, выше)</td></tr>
+  </table>
+
+  <p class="foot">Growser распространяется под MPL-2.0. Brave и Brave Shields — товарные знаки Brave Software, Inc.</p>
+</main>
+
 <script src="sky.js" defer></script>
 </body>
 </html>
