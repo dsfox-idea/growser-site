@@ -3,65 +3,141 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Growser — for safe and comfy growsing</title>
-<meta name="description" content="Growser is a Chromium browser for safe and comfy growsing. Get it from the Microsoft Store on Windows, or download the build for macOS or Linux." />
+<title>Growser — a browser that keeps its distance</title>
+<meta name="description" content="A Chromium browser with no account, no advertising and no telemetry — removed at build time, not switched off in a menu. Ad and tracker blocking on by default. Open source, MPL-2.0." />
 <link rel="icon" type="image/svg+xml" href="growser-appicon.svg" />
+<script>
+  // The page carries both languages and shows one. Which one is decided from
+  // the browser's own preference list - the same list it sends as
+  // Accept-Language - because this site is static files on GitHub Pages and
+  // there is no server to negotiate with. Runs here, in the head, before the
+  // body is parsed, so nothing flashes; without JavaScript the English half
+  // is the one that is already visible.
+  (function () {
+    var langs = (navigator.languages && navigator.languages.length)
+      ? navigator.languages : [navigator.language || ''];
+    for (var i = 0; i < langs.length; i++) {
+      var tag = String(langs[i]).toLowerCase();
+      if (tag.indexOf('ru') === 0) {
+        document.documentElement.className += ' ru';
+        document.documentElement.lang = 'ru';
+        return;
+      }
+      // The first tag that is a language at all decides; a later Russian
+      // entry is a fallback the reader ranked below English.
+      if (tag) return;
+    }
+  })();
+</script>
 <style>
-  :root { --green:#1EA362; --green-bright:#2fd07f; --ink:#eaf2ff; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html,body { height:100%; }
-  body {
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    color: var(--ink);
-    background: radial-gradient(1200px 820px at 50% -8%, #0d0f22 0%, #060714 46%, #010207 100%);
-    min-height:100%; text-align:center; padding:48px 24px 80px;
-    overflow-y:auto; overflow-x:hidden;
+  :root {
+    --green:#1EA362; --green-bright:#2fd07f; --green-deep:#148C50;
+    --ink:#eaf2ff; --ink-dim:#c4cfef; --ink-quiet:#9fb0da; --ink-faint:#7f8bb0;
+    --line:rgba(159,176,218,.16);
+    --card:rgba(18,24,48,.55);
+    --measure:47rem;
   }
-  .glow { position:fixed; z-index:0; width:640px; height:640px; left:50%; top:-140px;
+  * { margin:0; padding:0; box-sizing:border-box; }
+  /* The gradient is attached to the viewport, so on a page this long the
+     colour underneath it has to be dark too - otherwise everything below
+     the first screen is light text on the browser's white canvas. */
+  html { scroll-behavior:smooth; background-color:#010207; }
+  body {
+    font-family:-apple-system, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+    color:var(--ink); line-height:1.6;
+    background:radial-gradient(1200px 900px at 50% -10%, #0d0f22 0%, #060714 46%, #010207 100%);
+    background-attachment:fixed; min-height:100%;
+    -webkit-font-smoothing:antialiased;
+  }
+  .glow { position:fixed; z-index:0; width:760px; height:760px; left:50%; top:-320px;
     transform:translateX(-50%); pointer-events:none;
-    background: radial-gradient(circle, rgba(30,163,98,.22) 0%, rgba(30,163,98,0) 68%); }
-  .wrap { position:relative; z-index:1; max-width:640px; margin:0 auto; min-height:calc(100vh - 128px); display:flex; flex-direction:column; justify-content:center; }
-  .logo { width:140px; height:140px; margin:0 auto 30px; display:block;
-    filter: drop-shadow(0 10px 46px rgba(30,163,98,.55)); animation: float 6s ease-in-out infinite; }
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-  h1 { font-size: clamp(40px, 9vw, 84px); font-weight:800; letter-spacing:-.02em; white-space:nowrap; }
-  h1 .g { color: var(--green); }
-  h1 .os { font-size:.55em; color:inherit; text-decoration:none; }
-  h1 .os:hover { text-decoration:underline;
-    text-decoration-thickness:.06em; text-underline-offset:.12em; }
-  .tag { margin-top:14px; font-size: clamp(15px,3.5vw,20px); color:#b9c4e6; font-weight:500; }
-  .tag s { opacity:.55; }
-  .soon { margin-top:36px; display:inline-flex; align-items:center; gap:10px;
-    font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:#9fb0da; }
-  .dot { width:9px; height:9px; border-radius:50%; background:var(--green-bright);
-    box-shadow:0 0 0 0 rgba(47,208,127,.6); animation: pulse 1.8s infinite; }
-  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(47,208,127,.55)} 70%{box-shadow:0 0 0 14px rgba(47,208,127,0)} 100%{box-shadow:0 0 0 0 rgba(47,208,127,0)} }
-  .foot { position:relative; margin-top:40px; z-index:1; font-size:12px; color:#7f8bb0; }
-  .downloads { margin-top:34px; display:flex; gap:14px; justify-content:center;
+    background:radial-gradient(circle, rgba(30,163,98,.20) 0%, rgba(30,163,98,0) 68%); }
+  main { position:relative; z-index:1; }
+  html.ru main[lang="en"], html:not(.ru) main[lang="ru"] { display:none; }
+  section { max-width:var(--measure); margin:0 auto; padding:0 22px; }
+  .wide { max-width:62rem; }
+
+  /* --- hero ------------------------------------------------------------- */
+  .hero { text-align:center; padding-top:64px; padding-bottom:26px; }
+  .logo { width:104px; height:104px; display:block; margin:0 auto 20px; }
+  h1 { font-size:clamp(42px, 8vw, 76px); font-weight:800; letter-spacing:-.025em;
+    line-height:1.02; }
+  h1 .g { color:var(--green); }
+  .eyebrow { display:inline-flex; align-items:center; gap:9px; margin-bottom:18px;
+    font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-quiet); }
+  .eyebrow a { color:inherit; }
+  .dot { width:8px; height:8px; border-radius:50%; background:var(--green-bright);
+    box-shadow:0 0 12px var(--green-bright); }
+  .lede { margin:18px auto 0; max-width:34rem; font-size:clamp(17px,2.6vw,21px);
+    color:var(--ink-dim); }
+  .lede b { color:var(--ink); font-weight:600; }
+
+  /* --- sections --------------------------------------------------------- */
+  .band { padding:58px 0 10px; }
+  h2 { font-size:clamp(24px,4vw,34px); font-weight:750; letter-spacing:-.02em;
+    line-height:1.15; margin-bottom:14px; }
+  h2 .g { color:var(--green-bright); }
+  .sub { color:var(--ink-dim); font-size:17px; max-width:36rem; }
+  .rule { height:1px; background:var(--line); margin:54px auto 0; max-width:var(--measure); }
+
+  .cards { display:grid; gap:14px; margin-top:26px;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:20px 20px 18px; }
+  .card h3 { font-size:16px; font-weight:700; margin-bottom:7px; color:var(--ink); }
+  .card p { font-size:14.5px; color:var(--ink-dim); }
+  .card code, .prose code { background:rgba(255,255,255,.07); border-radius:4px;
+    padding:1px 5px; font-size:.92em; }
+
+  .prose p { color:var(--ink-dim); font-size:17px; margin-top:16px; }
+  .prose p.first { margin-top:22px; }
+  .prose strong { color:var(--ink); font-weight:600; }
+  .prose a, .sub a, .foot a, .meta a { color:var(--green-bright); }
+
+  .numbers { display:grid; gap:12px; margin-top:24px;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); }
+  .num { background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 20px; }
+  .num b { display:block; font-size:30px; font-weight:800; letter-spacing:-.02em;
+    color:var(--ink); font-variant-numeric:tabular-nums; }
+  .num.ours b { color:var(--green-bright); }
+  .num span { font-size:13.5px; color:var(--ink-quiet); }
+  .note { margin-top:16px; font-size:13.5px; color:var(--ink-quiet); }
+  .note a { color:var(--ink-quiet); }
+
+  blockquote { margin-top:24px; padding:22px 24px; border-left:3px solid var(--green);
+    background:var(--card); border-radius:0 14px 14px 0; }
+  blockquote p { margin:0 0 14px; font-size:17.5px; color:var(--ink-dim); }
+  blockquote p:last-child { margin-bottom:0; }
+  blockquote strong { color:var(--ink); font-weight:600; }
+  .sig { margin-top:18px; font-size:14px; color:var(--ink-quiet); }
+
+  /* --- downloads -------------------------------------------------------- */
+  .downloads { margin-top:30px; display:flex; gap:14px; justify-content:center;
     align-items:center; flex-wrap:wrap; }
   .get { display:inline-block; padding:15px 34px; border-radius:12px;
     background:var(--green); color:#04120b; font-weight:800; font-size:17px; text-decoration:none;
     box-shadow:0 10px 34px rgba(30,163,98,.42); transition:transform .15s ease, box-shadow .15s ease, background .15s ease; }
   .get:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(30,163,98,.55); }
-  /* The button takes a row of its own and the other platforms sit under it,
-     whichever one the script picks. Without the break the three share a row,
-     wrap two-and-one, and the button lands off-centre. */
+  /* The chosen button takes a row of its own and the other platforms sit
+     under it. Without the break the three share a row, wrap two-and-one, and
+     the button lands off-centre. */
   .downloads .brk { flex-basis:100%; height:0; order:1; }
   .downloads .get { order:2; }
   .downloads .get:not(.quiet) { order:0; }
-  /* Each button is drawn the way the platform it leads to draws its own,
-     and every number below was read out of that vendor's source rather
-     than remembered. Which means the download button looks different to
-     each visitor - that is the point, not an inconsistency. */
+
+  /* Each button is drawn the way the platform it leads to draws its own, and
+     every number below was read out of that vendor's source rather than
+     remembered. The download button therefore looks different to each
+     visitor - that is the point, not an inconsistency. */
 
   /* Apple. Measured in apple.com's own main.built.css: `.button` is
      rgb(0,113,227) with `--sk-button-border-radius: 980px` - a full pill -
-     and the type is the SF Pro Text stack, which -apple-system resolves to
-     on the machines that have it. There is no Apple mark on it: Apple
-     licenses the Apple logo and the Mac logo and permits neither on a web
-     site, so what we may borrow is the shape and the colour. Flat, and it
-     does not lift on hover: apple.com's buttons carry no shadow and do not
-     move, and copying our own habits back onto it would undo the point. */
+     and the type is the SF Pro Text stack, which -apple-system resolves to on
+     the machines that have it. No Apple mark: Apple licenses the Apple logo
+     and the Mac logo and permits neither on a web site, so what we may borrow
+     is the shape and the colour. Flat, and it does not lift on hover:
+     apple.com's buttons carry no shadow and do not move. */
   .get.apple { background:#0071e3; color:#fff; border-radius:980px;
     font-family:-apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:600; font-size:17px; letter-spacing:-.01em; padding:14px 32px;
@@ -74,8 +150,7 @@
      actually draws, and system-ui is how a page asks for the font that
      desktop draws it in. No distribution logo: naming the format and the
      distributions is nominative use, a logo would not be. Flat for the same
-     reason as Apple's: _buttons.scss gives buttons an inset border at most,
-     never a drop shadow, and `font-weight: bold` is theirs too. */
+     reason as Apple's. */
   .get.gnome { background:#3584e4; color:#fff; border-radius:9px;
     font-family:system-ui, Cantarell, Ubuntu, "Helvetica Neue", Arial, sans-serif;
     font-weight:700; font-size:16px; padding:15px 32px;
@@ -92,114 +167,444 @@
   .get.badge img { display:block; height:48px; width:auto; }
   .get.badge span { display:none; }
 
-  /* The platforms that are not yours: a link, not a second button - the
-     badge included, which is why it carries its own words to fall back to.
-     Last in the file on purpose, so it wins over the three above. */
+  /* The platforms that are not yours: a link, not a second button - the badge
+     included, which is why it carries its own words to fall back to. Last in
+     the file on purpose, so it wins over the three above. */
   .get.quiet { padding:6px 0; border-radius:0; background:transparent; box-shadow:none;
-    color:#9fb0da; font-weight:500; font-size:14px; letter-spacing:0;
+    color:var(--ink-quiet); font-weight:500; font-size:14px; letter-spacing:0;
     font-family:inherit; margin:0;
     border-bottom:1px solid rgba(159,176,218,.28); }
   .get.quiet:hover { transform:none; box-shadow:none; background:transparent;
     color:var(--green-bright); border-bottom-color:rgba(47,208,127,.5); }
   .get.badge.quiet img { display:none; }
   .get.badge.quiet span { display:inline; }
-  .upd-link { margin-top:18px; font-size:13px; color:#8e9cc4; }
-  .upd-link a { color:#9fb0da; }
-  .meta { margin-top:12px; font-size:13px; color:#8e9cc4; }
-  .meta a { color:#9fb0da; }
+  .meta { margin-top:16px; font-size:13.5px; color:#8e9cc4; text-align:center; }
+  .hero .meta { max-width:40rem; margin-left:auto; margin-right:auto; }
+
+  .foot { position:relative; z-index:1; margin:64px auto 40px; max-width:var(--measure);
+    padding:22px 22px 0; border-top:1px solid var(--line);
+    font-size:12.5px; color:var(--ink-faint); text-align:center; }
+  .foot a { color:var(--ink-quiet); }
+  .foot .links { margin-bottom:8px; }
+  .foot .links a { margin:0 9px; }
+
+  @media (max-width:560px) {
+    .hero { padding-top:44px; }
+    .band { padding-top:44px; }
+    blockquote { padding:18px; border-radius:0 12px 12px 0; }
+  }
 </style>
 </head>
 <body>
   <div class="glow"></div>
-  <div class="wrap">
-    <!-- Geometry is 1:1 from growser brand/growser-appicon.svg (the app.icns
-         master); the extra defs reproduce the Tahoe dock "liquid glass" look
-         that macOS applies to the flat icon at render time. -->
-    <svg class="logo" viewBox="96 96 832 832" xmlns="http://www.w3.org/2000/svg" aria-label="Growser">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#33C57B"/><stop offset="1" stop-color="#148C50"/>
-        </linearGradient>
-        <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/>
-          <stop offset=".32" stop-color="#FFFFFF" stop-opacity=".10"/>
-          <stop offset=".58" stop-color="#FFFFFF" stop-opacity="0"/>
-        </linearGradient>
-        <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
-          <stop offset=".6" stop-color="#0A4527" stop-opacity="0"/>
-          <stop offset="1" stop-color="#0A4527" stop-opacity=".26"/>
-        </linearGradient>
-        <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFFFFF" stop-opacity=".6"/>
-          <stop offset=".4" stop-color="#FFFFFF" stop-opacity="0"/>
-        </linearGradient>
-        <!-- Alpha ramp measured off the actual Tahoe dock rendering:
-           ~0.99 at the glyph top, ~0.86 at the crossbar, ~0.67 at the arc
-           bottom — linear 1 -> .65 over the glyph bbox -->
-        <linearGradient id="gshade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
-          <stop offset="1" stop-color="#FFFFFF" stop-opacity=".65"/>
-        </linearGradient>
-        <filter id="gdepth" x="-15%" y="-15%" width="130%" height="140%">
-          <!-- frosted edge: the dock glyph's 10-90% edge transition measures
-             ~13 units in this 832 coordinate space, i.e. a ~5-unit sigma -->
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.75" result="soft"/>
-          <feDropShadow in="soft" dx="0" dy="16" stdDeviation="18" flood-color="#06331D" flood-opacity=".42"/>
-        </filter>
-      </defs>
-      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#bg)"/>
-      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#sheen)"/>
-      <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#floor)"/>
-      <!-- Frosted glyph, Tahoe-style: white with an alpha ramp 1 -> .85 top to
-         bottom, so the tile shows through the lower strokes -->
-      <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" filter="url(#gdepth)" stroke="url(#gshade)" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="none" stroke="url(#rim)" stroke-width="7"/>
-    </svg>
-    <h1><a class="os" href="https://github.com/dsfox-idea/brave-core">opensource</a> <span class="g">G</span>rowser</h1>
-    <p class="tag">For safe and comfy <s>browsing</s> growsing.</p>
-    <!-- All three are buttons in the markup, so a reader with no JavaScript
-         gets three working downloads rather than none. The script below keeps
-         the one that matches the platform and turns the other two into links. -->
-    <div class="downloads">
-      <a class="get apple" id="dl-mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
-      <a class="get badge" id="dl-store" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Download from the Microsoft Store</span></a>
-      <a class="get gnome" id="dl-linux" href="https://growser.org/apt/growser-amd64.deb">Download for Linux (.deb)</a>
+
+  <!-- Geometry is 1:1 from growser brand/growser-appicon.svg (the app.icns
+       master); the extra defs reproduce the Tahoe dock "liquid glass" look
+       that macOS applies to the flat icon at render time. Drawn once and
+       referenced by both language halves. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#33C57B"/><stop offset="1" stop-color="#148C50"/>
+      </linearGradient>
+      <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/>
+        <stop offset=".32" stop-color="#FFFFFF" stop-opacity=".10"/>
+        <stop offset=".58" stop-color="#FFFFFF" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+        <stop offset=".6" stop-color="#0A4527" stop-opacity="0"/>
+        <stop offset="1" stop-color="#0A4527" stop-opacity=".26"/>
+      </linearGradient>
+      <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".6"/>
+        <stop offset=".4" stop-color="#FFFFFF" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gshade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+        <stop offset="1" stop-color="#FFFFFF" stop-opacity=".65"/>
+      </linearGradient>
+      <filter id="gdepth" x="-15%" y="-15%" width="130%" height="140%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1.75" result="soft"/>
+        <feDropShadow in="soft" dx="0" dy="16" stdDeviation="18" flood-color="#06331D" flood-opacity=".42"/>
+      </filter>
+      <g id="mark">
+        <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#bg)"/>
+        <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#sheen)"/>
+        <rect x="96" y="96" width="832" height="832" rx="188" ry="188" fill="url(#floor)"/>
+        <path d="M 643.23 324.58 A 228.80 228.80 0 1 0 740.80 512.00 M 740.80 512.00 L 540.45 512.00" fill="none" filter="url(#gdepth)" stroke="url(#gshade)" stroke-width="78.21" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="none" stroke="url(#rim)" stroke-width="7"/>
+      </g>
+    </defs>
+  </svg>
+
+<!-- ===================== ENGLISH ===================================== -->
+<main lang="en">
+
+  <section class="hero">
+    <svg class="logo" viewBox="96 96 832 832" aria-label="Growser"><use href="#mark"/></svg>
+    <p class="eyebrow"><span class="dot"></span> Open source · MPL-2.0 · no accounts</p>
+    <h1><span class="g">G</span>rowser</h1>
+    <p class="lede">A Chromium browser that keeps its distance. <b>No account, no advertising,
+      no telemetry</b> — taken out of the build, not switched off in a menu.
+      Ads and trackers are blocked from the first run.</p>
+
+    <div class="downloads" data-downloads>
+      <a class="get apple" data-dl="mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
+      <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Download from the Microsoft Store</span></a>
+      <a class="get gnome" data-dl="linux" href="https://growser.org/apt/growser-amd64.deb">Download for Linux (.deb)</a>
       <i class="brk"></i>
     </div>
-    <div class="meta">
-      The Linux .deb is for Debian and Ubuntu, and Fedora and RHEL take
-      <a href="https://growser.org/rpm/growser-x86_64.rpm">the .rpm</a>
-      &mdash; <a href="/updates.html">how updates reach each of them</a> ·
-      on Windows the Microsoft Store installs, signs and updates the browser ·
-      <a href="https://github.com/dsfox-idea/brave-core/releases/latest">release notes and checksums</a>
+    <p class="meta">Debian and Ubuntu take the <code>.deb</code>, Fedora and RHEL
+      <a href="https://growser.org/rpm/growser-x86_64.rpm">the .rpm</a>; on Windows the
+      Microsoft Store installs, signs and updates the browser ·
+      <a href="/updates.html">how updates arrive</a></p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>What is different from Chrome — <span class="g">and from the other Chromium browsers</span></h2>
+    <p class="sub">Every line here is a decision in the build, and each one can be
+      checked in the sources or in the binary. The detail lives in the
+      <a href="/privacy.html">privacy policy</a>.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Nothing to sign in to</h3>
+        <p>There is no Growser account, no sync server and no profile of you
+          anywhere. History, bookmarks, passwords and cookies stay on your
+          machine.</p>
+      </div>
+      <div class="card">
+        <h3>Telemetry is not in the binary</h3>
+        <p>Usage statistics, the analytics subsystem and web discovery are
+          compiled out — <code>ENABLE_P3A</code> is 0 in the build we ship.
+          Nothing to switch off, and nothing that a later setting could switch
+          back on.</p>
+      </div>
+      <div class="card">
+        <h3>Google is answered, not told</h3>
+        <p>Safe Browsing, site icons, component updates and form-structure
+          lookups still need Google's servers. They reach them through
+          <code>backend.growser.org</code>, so what arrives at Google is our
+          server's address, not yours.</p>
+      </div>
+      <div class="card">
+        <h3>Nothing is being sold to you</h3>
+        <p>No advertising, no reward tokens, no crypto wallet, no VPN
+          subscription, no AI assistant. Every one of them is compiled out
+          rather than tucked away in a menu.</p>
+      </div>
+      <div class="card">
+        <h3>Crash reports are yours to give</h3>
+        <p>The browser asks once, and says what a report contains. Answer no and
+          nothing is ever sent; the answer can be changed later either way.</p>
+      </div>
+      <div class="card">
+        <h3>Internal pages have no network</h3>
+        <p>Settings, the new tab page and the rest of the browser's own pages
+          cannot reach the network at all. Where a remote answer is needed, the
+          browser process fetches it and hands over data, never network reach.
+          That rule is stricter than upstream Chromium's.</p>
+      </div>
     </div>
-    <p class="upd-link">How do updates arrive on each platform? See <a href="/updates.html">how updates work</a>.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>The blocker is the browser</h2>
+    <p class="sub">Not an extension you remember to install, and not a setting
+      somebody can talk you out of.</p>
+    <div class="prose">
+      <p class="first">Ads and trackers are blocked from the first run, on every
+        site, with the lists maintained by the people who maintain them —
+        EasyList, EasyPrivacy and the rest, fetched from their own publishers.
+        We do not run a list of our own, and there is no programme through which
+        an advertiser can pay to be let through. Nobody can, because there is
+        nobody to pay.</p>
+      <p>You can add your own rules in Adblock Plus syntax, turn the shields
+        off for a single site when something breaks, or run the browser in
+        <strong>blocking-only mode</strong>, where nothing but the blocker is
+        active. What each control does is written out in
+        <a href="/features.html">what the settings do</a>.</p>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>As fast as the browser you left</h2>
+    <p class="sub">Privacy that costs you speed does not get used. Speedometer 3.1,
+      one machine, the three runs back to back in a single session:</p>
+
+    <div class="numbers">
+      <div class="num ours"><b>43.4</b><span>Growser</span></div>
+      <div class="num"><b>43.6</b><span>Brave</span></div>
+      <div class="num"><b>40.7</b><span>Chrome</span></div>
+    </div>
+
+    <p class="note">Measured in September 2026 on one Windows machine, in one
+      session, so read it as a tie rather than a ranking: under equal conditions the three sit within run-to-run noise of
+      each other. Run it yourself at
+      <a href="https://browserbench.org/Speedometer3.1/">browserbench.org</a> —
+      that is the same test. We ship the release configuration Chromium itself
+      ships with: official build, profile-guided optimisation, ThinLTO, and the
+      debug assertions off. A fork that skips those is the one that feels slow.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>Why this browser exists</h2>
+    <blockquote>
+      <p>I spent years building browsers for corporations and their purposes. I am
+        building this one for people — not because I want to earn from it, but
+        because I can, and because I want a browser that is genuinely private and
+        genuinely safe to exist.</p>
+      <p>Your choice as a user is a simple one. Either you trust a corporation, or
+        a group of people, who one way or another have to make money from what they
+        give you — or you take a browser from one experienced browser engineer, with
+        the source open for anyone to read.</p>
+      <p><strong>And if you want to, and can, help me make it better.</strong></p>
+    </blockquote>
+    <p class="sig">— Dmitry Golubnichiy, the developer ·
+      <a href="https://github.com/dsfox-idea/brave-core">read the sources</a> ·
+      <a href="mailto:support@growser.org">support@growser.org</a></p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band" style="text-align:center">
+    <h2>Take it for a week</h2>
+    <p class="sub" style="margin:0 auto">Import your bookmarks and see whether you
+      miss anything. If you do not, that is the whole argument.</p>
+
+    <div class="downloads" data-downloads>
+      <a class="get apple" data-dl="mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
+      <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Download from the Microsoft Store</span></a>
+      <a class="get gnome" data-dl="linux" href="https://growser.org/apt/growser-amd64.deb">Download for Linux (.deb)</a>
+      <i class="brk"></i>
+    </div>
+    <p class="meta">Every release carries its checksums, and the Windows installer is
+      published beside the sources so that anyone can build it and compare —
+      <a href="https://github.com/dsfox-idea/brave-core/releases/latest">release notes and checksums</a>.
+      The Linux repositories are signed with
+      <a href="/growser-signing-key.pub">our key</a>.</p>
+  </section>
+
+
+<div class="foot">
+  <div class="links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/features.html">Settings</a>
+    <a href="/updates.html">Updates</a>
+    <a href="https://github.com/dsfox-idea/brave-core">Sources</a>
+    <a href="/growser-signing-key.pub">Signing key</a>
   </div>
-  <div class="foot">© 2026 Growser · growser.org · <a href="https://github.com/dsfox-idea/brave-core" style="color:#7f8bb0">sources</a> · <a href="/updates.html" style="color:#7f8bb0">updates</a></div>
-  <script>
-    (function () {
-      var ua = navigator.userAgent || "";
-      var p = (navigator.userAgentData && navigator.userAgentData.platform)
-              || navigator.platform || "";
-      var mine = null;
-      // Order matters. Android reports "Linux armv8l" as its platform and
-      // modern iPhones and iPads report a Mac one, so both have to be ruled
-      // out before either of those tests runs - otherwise a phone is offered
-      // a desktop build that cannot run on it. We have no build for either,
-      // and saying nothing is the honest answer.
-      if (/Android|iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)) mine = null;
-      else if (/Mac/i.test(p)) mine = 'dl-mac';
-      else if (/Win/i.test(p)) mine = 'dl-store';
-      else if (/Linux|X11|CrOS/i.test(p)) mine = 'dl-linux';
-      // Nothing recognised: leave all three as they are. A page that cannot
-      // tell must not pick for the reader.
-      if (!mine) return;
-      ['dl-mac', 'dl-store', 'dl-linux'].forEach(function (id) {
-        var el = document.getElementById(id);
-        if (el && id !== mine) el.classList.add('quiet');
-      });
-    })();
-  </script>
+  © 2026 Growser · growser.org · MPL-2.0 · Brave and Brave Shields are trademarks of Brave Software, Inc.
+</div>
+
+</main>
+
+<!-- ===================== РУССКИЙ ==================================== -->
+<main lang="ru">
+
+  <section class="hero">
+    <svg class="logo" viewBox="96 96 832 832" aria-label="Growser"><use href="#mark"/></svg>
+    <p class="eyebrow"><span class="dot"></span> Открытый код · MPL-2.0 · без аккаунтов</p>
+    <h1><span class="g">G</span>rowser</h1>
+    <p class="lede">Браузер на Chromium, который держит дистанцию. <b>Ни аккаунта, ни
+      рекламы, ни телеметрии</b> — они не выключены в настройках, их нет в сборке.
+      Реклама и трекеры блокируются с первого запуска.</p>
+
+    <div class="downloads" data-downloads>
+      <a class="get apple" data-dl="mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Скачать для macOS (Apple silicon)</a>
+      <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Скачать в Microsoft Store</span></a>
+      <a class="get gnome" data-dl="linux" href="https://growser.org/apt/growser-amd64.deb">Скачать для Linux (.deb)</a>
+      <i class="brk"></i>
+    </div>
+    <p class="meta">Debian и Ubuntu ставят <code>.deb</code>, Fedora и RHEL —
+      <a href="https://growser.org/rpm/growser-x86_64.rpm">.rpm</a>; на Windows
+      установку, подпись и обновления берёт на себя Microsoft Store ·
+      <a href="/updates.html">как приходят обновления</a></p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>Чем отличается от Chrome — <span class="g">и от остальных браузеров на Chromium</span></h2>
+    <p class="sub">Каждая строка ниже — решение, принятое в сборке, и любое из них
+      можно проверить в исходниках или в самом бинарнике. Подробности —
+      в <a href="/privacy.html">политике конфиденциальности</a>.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Входить некуда</h3>
+        <p>Аккаунта Growser не существует, сервера синхронизации нет, профиля
+          о вас нет нигде. История, закладки, пароли и cookies остаются на вашей
+          машине.</p>
+      </div>
+      <div class="card">
+        <h3>Телеметрии нет в бинарнике</h3>
+        <p>Сбор статистики, аналитическая подсистема и web discovery вырезаны
+          на этапе компиляции — <code>ENABLE_P3A</code> в нашей сборке равен 0.
+          Выключать нечего, и включить обратно настройкой нельзя.</p>
+      </div>
+      <div class="card">
+        <h3>Google отвечает, но не узнаёт вас</h3>
+        <p>Защите от опасных сайтов, значкам сайтов, обновлению компонентов и
+          разбору форм по-прежнему нужны серверы Google. Они идут через
+          <code>backend.growser.org</code>, поэтому до Google доходит адрес
+          нашего сервера, а не вашего устройства.</p>
+      </div>
+      <div class="card">
+        <h3>Вам ничего не продают</h3>
+        <p>Ни рекламы, ни токенов за просмотры, ни криптокошелька, ни подписки
+          на VPN, ни ИИ-помощника. Всё это не спрятано в меню, а вырезано из
+          сборки.</p>
+      </div>
+      <div class="card">
+        <h3>Отчёт о сбое — ваше решение</h3>
+        <p>Браузер спрашивает один раз и говорит, что именно уходит в отчёте.
+          Ответите «нет» — не уйдёт ничего; ответ можно изменить в любую
+          сторону позже.</p>
+      </div>
+      <div class="card">
+        <h3>У служебных страниц нет сети</h3>
+        <p>Настройки, новая вкладка и прочие внутренние страницы браузера не
+          могут обратиться в сеть вообще. Если нужен ответ извне, его получает
+          процесс браузера и отдаёт странице данные, а не доступ к сети. Это
+          строже, чем в самом Chromium.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>Блокировщик — это и есть браузер</h2>
+    <p class="sub">Не расширение, которое нужно не забыть поставить, и не
+      настройка, от которой вас могут отговорить.</p>
+    <div class="prose">
+      <p class="first">Реклама и трекеры блокируются с первого запуска, на всех
+        сайтах, по спискам тех, кто эти списки и ведёт, — EasyList, EasyPrivacy
+        и остальные, прямо с серверов их издателей. Своего списка мы не держим,
+        и нет никакой программы, по которой рекламодатель мог бы заплатить за
+        пропуск. Не может — потому что платить некому.</p>
+      <p>Можно добавить свои правила в синтаксисе Adblock Plus, выключить щиты
+        на одном сайте, если он сломался, или перевести браузер в
+        <strong>режим «только блокировка»</strong>, где работает один
+        блокировщик и ничего кроме. Что делает каждый переключатель — написано
+        в разделе <a href="/features.html">что делают настройки</a>.</p>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>Не медленнее того, из которого вы уходите</h2>
+    <p class="sub">Приватность, за которую платят скоростью, не приживается.
+      Speedometer 3.1, одна машина, три прогона подряд в одной сессии:</p>
+
+    <div class="numbers">
+      <div class="num ours"><b>43,4</b><span>Growser</span></div>
+      <div class="num"><b>43,6</b><span>Brave</span></div>
+      <div class="num"><b>40,7</b><span>Chrome</span></div>
+    </div>
+
+    <p class="note">Измерено в сентябре 2026 года на одной машине с Windows,
+      в одной сессии, поэтому читать это стоит как ничью, а не как рейтинг: в равных условиях все трое укладываются в разброс
+      между прогонами. Проверьте сами на
+      <a href="https://browserbench.org/Speedometer3.1/">browserbench.org</a> —
+      это тот же тест. Мы собираем в той же конфигурации, в которой выходит сам
+      Chromium: официальная сборка, профильная оптимизация, ThinLTO и выключенные
+      отладочные проверки. Медленным кажется тот форк, который на этом
+      экономит.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band">
+    <h2>Зачем этот браузер</h2>
+    <blockquote>
+      <p>Я много лет разрабатывал браузеры для корпораций и их целей. Этот я делаю
+        для людей — не потому что хочу на нём заработать, а потому что могу и хочу,
+        чтобы существовал по-настоящему приватный и безопасный браузер.</p>
+      <p>У вас как у пользователя выбор простой. Либо вы доверяете корпорации или
+        группе людей, которым так или иначе нужно зарабатывать на своих продуктах, —
+        либо берёте браузер от отдельного опытного разработчика браузеров, с
+        открытым исходным кодом, который может прочитать любой.</p>
+      <p><strong>И, если хотите и можете, — помогайте мне его дорабатывать и
+        развивать.</strong></p>
+    </blockquote>
+    <p class="sig">— Дмитрий Голубничий, разработчик ·
+      <a href="https://github.com/dsfox-idea/brave-core">читать исходный код</a> ·
+      <a href="mailto:support@growser.org">support@growser.org</a></p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section class="band" style="text-align:center">
+    <h2>Поживите с ним неделю</h2>
+    <p class="sub" style="margin:0 auto">Перенесите закладки и посмотрите, чего вам
+      не хватит. Если ничего — это и есть весь аргумент.</p>
+
+    <div class="downloads" data-downloads>
+      <a class="get apple" data-dl="mac" href="https://github.com/dsfox-idea/brave-core/releases/latest/download/Growser-mac-arm64.dmg">Скачать для macOS (Apple silicon)</a>
+      <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Скачать в Microsoft Store</span></a>
+      <a class="get gnome" data-dl="linux" href="https://growser.org/apt/growser-amd64.deb">Скачать для Linux (.deb)</a>
+      <i class="brk"></i>
+    </div>
+    <p class="meta">У каждого выпуска опубликованы контрольные суммы, а установщик для
+      Windows лежит рядом с исходниками — чтобы любой мог собрать его сам и сравнить:
+      <a href="https://github.com/dsfox-idea/brave-core/releases/latest">заметки к выпуску и суммы</a>.
+      Репозитории для Linux подписаны <a href="/growser-signing-key.pub">нашим ключом</a>.</p>
+  </section>
+
+
+<div class="foot">
+  <div class="links">
+    <a href="/privacy.html">Конфиденциальность</a>
+    <a href="/features.html">Настройки</a>
+    <a href="/updates.html">Обновления</a>
+    <a href="https://github.com/dsfox-idea/brave-core">Исходный код</a>
+    <a href="/growser-signing-key.pub">Ключ подписи</a>
+  </div>
+  © 2026 Growser · growser.org · MPL-2.0 · Brave и Brave Shields — товарные знаки Brave Software, Inc.
+</div>
+
+</main>
+
+<script>
+  // Three working downloads in the markup, so a reader with no JavaScript gets
+  // all of them rather than none. This keeps the one that matches the platform
+  // as a button and turns the other two into links - in both language halves,
+  // since only one of them is ever on screen.
+  (function () {
+    var ua = navigator.userAgent || "";
+    var p = (navigator.userAgentData && navigator.userAgentData.platform)
+            || navigator.platform || "";
+    var mine = null;
+    // Order matters. Android reports "Linux armv8l" as its platform and modern
+    // iPhones and iPads report a Mac one, so both have to be ruled out before
+    // either of those tests runs - otherwise a phone is offered a desktop build
+    // that cannot run on it. We have no build for either, and saying nothing is
+    // the honest answer.
+    if (/Android|iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)) mine = null;
+    else if (/Mac/i.test(p)) mine = 'mac';
+    else if (/Win/i.test(p)) mine = 'win';
+    else if (/Linux|X11|CrOS/i.test(p)) mine = 'linux';
+    // Nothing recognised: leave all three as they are. A page that cannot tell
+    // must not pick for the reader.
+    if (!mine) return;
+    var all = document.querySelectorAll('[data-dl]');
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].getAttribute('data-dl') !== mine) all[i].classList.add('quiet');
+    }
+  })();
+</script>
 <script src="sky.js" defer></script>
 </body>
 </html>
