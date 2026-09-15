@@ -44,7 +44,7 @@
     --ink:#eaf2ff; --ink-dim:#c4cfef; --ink-quiet:#9fb0da; --ink-faint:#7f8bb0;
     --line:rgba(159,176,218,.16);
     --card:rgba(18,24,48,.55);
-    --measure:47rem;
+    --measure:70rem;   /* 1120px, the width privacy.html reads at */
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   /* The gradient is attached to the viewport, so on a page this long the
@@ -64,7 +64,7 @@
   main { position:relative; z-index:1; }
   html.ru main[lang="en"], html:not(.ru) main[lang="ru"] { display:none; }
   section { max-width:var(--measure); margin:0 auto; padding:0 22px; }
-  .wide { max-width:62rem; }
+
 
   /* --- hero ------------------------------------------------------------- */
   .hero { text-align:center; padding-top:64px; padding-bottom:26px; }
@@ -90,7 +90,7 @@
   .rule { height:1px; background:var(--line); margin:54px auto 0; max-width:var(--measure); }
 
   .cards { display:grid; gap:14px; margin-top:26px;
-    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); }
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); }
   .card { background:var(--card); border:1px solid var(--line); border-radius:14px;
     padding:20px 20px 18px; }
   .card h3 { font-size:16px; font-weight:700; margin-bottom:7px; color:var(--ink); }
