@@ -203,6 +203,59 @@
     without the question.
   </p>
 
+  <h2>On iPhone and iPad</h2>
+  <p>
+    Growser for iOS is the same browser built for Apple's platform, with one
+    difference that Apple requires of every browser there: pages are displayed
+    by Apple's WebKit. What leaves the device on iOS:
+  </p>
+
+  <table>
+    <tr><th>When</th><th>Where</th><th>What exactly</th></tr>
+
+    <tr>
+      <td>The app crashed and you allowed sending</td>
+      <td><code>growser-crashes.humans.top</code> — our server</td>
+      <td>A minidump, as on the desktop, plus the app and iOS versions. The app asks on first launch; the switch is in the privacy settings, "Send crash reports".</td>
+    </tr>
+
+    <tr>
+      <td>Translating a page</td>
+      <td>Nowhere: Apple translates on the device. <code>backend.growser.org</code>, and from there <code>translate.brave.com</code>, only delivers the translation script</td>
+      <td>The page's text does not leave the device.</td>
+    </tr>
+
+    <tr>
+      <td>Opening sites, with "Block dangerous sites" on</td>
+      <td>Apple — WebKit's fraudulent website warning, the same one Safari uses</td>
+      <td>The check is Apple's and follows Apple's rules; the browser adds nothing of its own.</td>
+    </tr>
+
+    <tr>
+      <td>Updating filter lists</td>
+      <td>Their publishers' own servers (such as <code>easylist.to</code> and GitHub)</td>
+      <td>Requests for the lists. No page addresses and no content.</td>
+    </tr>
+
+    <tr>
+      <td>Updating internal components and the browser's configuration</td>
+      <td><code>backend.growser.org</code>, and from there Google's servers for components</td>
+      <td>The versions installed and requests for new ones. No page addresses and no content.</td>
+    </tr>
+
+    <tr>
+      <td>Search and address-bar suggestions</td>
+      <td>The search engine you chose (DuckDuckGo by default)</td>
+      <td>What you typed. The search engine receives it, not us.</td>
+    </tr>
+
+    <tr>
+      <td>Checking for updates</td>
+      <td>The App Store</td>
+      <td>Handled by Apple, as for any app.</td>
+    </tr>
+  </table>
+
   <h2>What we are not responsible for</h2>
   <ul>
     <li><b>The sites you open.</b> What they collect and how they use it is described in their policies, not in this one. The browser only shows what you asked it to open.</li>
@@ -239,7 +292,7 @@
     beside them. The list above was compiled from the code, not from memory.
   </div>
 
-  <p class="foot">Updated 24 August 2026. This English text is a translation; the Russian version is the one written first.</p>
+  <p class="foot">Updated 26 September 2026. This English text is a translation; the Russian version is the one written first.</p>
 </main>
 
 <main lang="ru" class="wrap">
@@ -371,6 +424,59 @@
     вопроса.
   </p>
 
+  <h2>На iPhone и iPad</h2>
+  <p>
+    Growser для iOS — тот же браузер, собранный под платформу Apple, с одним
+    отличием, которое Apple требует от любого браузера на ней: страницы
+    показывает WebKit от Apple. Что уходит с устройства на iOS:
+  </p>
+
+  <table>
+    <tr><th>Когда</th><th>Куда</th><th>Что именно</th></tr>
+
+    <tr>
+      <td>Приложение упало, и вы разрешили отправку</td>
+      <td><code>growser-crashes.humans.top</code> — наш сервер</td>
+      <td>Минидамп, как на компьютере, плюс версии приложения и iOS. Приложение спрашивает при первом запуске; переключатель — в настройках конфиденциальности, «Отправлять отчёты о сбоях».</td>
+    </tr>
+
+    <tr>
+      <td>Перевод страницы</td>
+      <td>Никуда: переводит Apple на самом устройстве. <code>backend.growser.org</code>, а через него <code>translate.brave.com</code>, только отдаёт скрипт перевода</td>
+      <td>Текст страницы устройство не покидает.</td>
+    </tr>
+
+    <tr>
+      <td>Открытие сайтов при включённой блокировке опасных сайтов</td>
+      <td>Apple — предупреждение о мошеннических сайтах в WebKit, то же, что в Safari</td>
+      <td>Проверку делает Apple по своим правилам; браузер ничего от себя не добавляет.</td>
+    </tr>
+
+    <tr>
+      <td>Обновление списков фильтров</td>
+      <td>Серверы их издателей (например, <code>easylist.to</code> и GitHub)</td>
+      <td>Запросы самих списков. Никаких адресов страниц и никакого содержимого.</td>
+    </tr>
+
+    <tr>
+      <td>Обновление внутренних компонентов и конфигурации браузера</td>
+      <td><code>backend.growser.org</code>, а через него — серверы Google для компонентов</td>
+      <td>Версии установленного и запросы на новое. Никаких адресов страниц и никакого содержимого.</td>
+    </tr>
+
+    <tr>
+      <td>Поиск и подсказки в адресной строке</td>
+      <td>Выбранная вами поисковая система (по умолчанию DuckDuckGo)</td>
+      <td>То, что вы ввели. Это получает поисковая система, а не мы.</td>
+    </tr>
+
+    <tr>
+      <td>Проверка обновлений</td>
+      <td>App Store</td>
+      <td>Этим занимается Apple, как для любого приложения.</td>
+    </tr>
+  </table>
+
   <h2>За что мы не отвечаем</h2>
   <ul>
     <li><b>За сайты, которые вы открываете.</b> Что они собирают и как это используют — описано в их политиках, не в этой. Браузер лишь показывает то, что вы попросили открыть.</li>
@@ -407,7 +513,7 @@
     который лежит рядом с ними. Список выше составлен по коду, а не по памяти.
   </div>
 
-  <p class="foot">Обновлено 24 августа 2026 года.</p>
+  <p class="foot">Обновлено 26 сентября 2026 года.</p>
 </main>
 
 </body>
