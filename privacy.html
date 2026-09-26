@@ -206,6 +206,12 @@
     (152.26.825.0 and newer). In earlier builds reports were sent by default,
     without the question.
   </p>
+  <p>
+    On Android the question is on the last welcome screen. The box is ticked
+    there too, and your answer is recorded when you press "Start browsing". To
+    change it: Settings → Brave Shields &amp; privacy → Automatically send
+    diagnostic reports.
+  </p>
 
   <h2>On iPhone and iPad</h2>
   <p>
@@ -259,6 +265,97 @@
       <td>Handled by Apple, as for any app.</td>
     </tr>
   </table>
+
+  <h2>On Android</h2>
+  <p>
+    Growser for Android is the same Chromium browser as on the desktop, and it
+    sends almost the same things. Two differences: Android performs some
+    features through Google Play services — only when you use them, or a site
+    you allowed does — and there is no page translation on Android. What leaves
+    the device on Android:
+  </p>
+
+  <table>
+    <tr><th>When</th><th>Where</th><th>What exactly</th></tr>
+
+    <tr>
+      <td>The browser crashed and you allowed sending</td>
+      <td><code>growser-crashes.humans.top</code> — our server</td>
+      <td>A minidump, as on the desktop, plus the browser and Android versions.</td>
+    </tr>
+
+    <tr>
+      <td>Opening sites, with protection from dangerous sites on</td>
+      <td><code>backend.growser.org</code>, and from there Google Safe Browsing</td>
+      <td>Hash prefixes of addresses, as on the desktop: the lists of dangerous sites are kept on the device, and a follow-up goes out only when a prefix matches. The addresses themselves are not sent. On by default; to turn it off: Settings → Brave Shields &amp; privacy → Safe Browsing.</td>
+    </tr>
+
+    <tr>
+      <td>Updating internal components and the browser's configuration</td>
+      <td><code>backend.growser.org</code>, and from there Google's servers for components</td>
+      <td>The versions installed and requests for new ones. No page addresses and no content.</td>
+    </tr>
+
+    <tr>
+      <td>Updating filter lists</td>
+      <td>Their publishers' own servers (GitHub, <code>easylist.to</code>, <code>fanboy.co.nz</code>, <code>gitlab.io</code>)</td>
+      <td>Requests for the lists. No page addresses and no content.</td>
+    </tr>
+
+    <tr>
+      <td>Search engine icons in the search settings</td>
+      <td><code>backend.growser.org</code>, and from there gstatic.com</td>
+      <td>The addresses of the search engines whose icons are shown. Not your history, and not the pages you open.</td>
+    </tr>
+
+    <tr>
+      <td>Search and address-bar suggestions</td>
+      <td>The search engine you chose (DuckDuckGo by default)</td>
+      <td>What you typed. Suggestions as you type are off by default on Android.</td>
+    </tr>
+
+    <tr>
+      <td>A site sends you notifications, and you allowed it to</td>
+      <td>Google Firebase Cloud Messaging, through Google Play services</td>
+      <td>That site's subscription to your device and the messages it sends. The site encrypts its messages for your browser: Google delivers them but cannot read them. Until you allow notifications, nothing is sent.</td>
+    </tr>
+
+    <tr>
+      <td>A site asked for your location, and you allowed it</td>
+      <td>Android's location service (Google Play services)</td>
+      <td>Android determines the location under Google's rules and your phone's settings; the site you allowed receives it.</td>
+    </tr>
+
+    <tr>
+      <td>Signing in with a passkey, filling a code from an SMS, casting to a screen, augmented reality</td>
+      <td>Google Play services on your device</td>
+      <td>Only when you use them, or a site does on your action. Android performs these features itself, under Google's rules.</td>
+    </tr>
+
+    <tr>
+      <td>Voice input</td>
+      <td>Android's system speech recognizer (usually Google's)</td>
+      <td>Microphone audio — only after you tap the microphone.</td>
+    </tr>
+
+    <tr>
+      <td>A site plays protected video (as streaming services do)</td>
+      <td>Google — the Widevine service</td>
+      <td>A certificate request for the video-protection module on your device. Only after a site starts such a video.</td>
+    </tr>
+
+    <tr>
+      <td>Checking for updates</td>
+      <td>Google Play</td>
+      <td>Handled by Google Play, as for any app.</td>
+    </tr>
+  </table>
+  <p>
+    There is no page translation on Android: the browser has no translator on
+    the phone itself, and we do not want to send the text of pages to outside
+    servers. The browser's data is not included in Android's backups to Google's
+    cloud.
+  </p>
 
   <h2>What we are not responsible for</h2>
   <ul>
@@ -427,6 +524,12 @@
     и новее). В более ранних сборках отчёты отправлялись по умолчанию без
     вопроса.
   </p>
+  <p>
+    На Android вопрос стоит на последнем экране приветствия. Галочка так же
+    стоит, а решение записывается, когда вы нажимаете «Начать просмотр».
+    Изменить его — «Настройки» → «Защита Growser и конфиденциальность» →
+    «Автоматически отправлять данные диагностики».
+  </p>
 
   <h2>На iPhone и iPad</h2>
   <p>
@@ -480,6 +583,96 @@
       <td>Этим занимается Apple, как для любого приложения.</td>
     </tr>
   </table>
+
+  <h2>На Android</h2>
+  <p>
+    Growser для Android — тот же браузер на Chromium, что и на компьютере, и
+    отправляет он почти то же самое. Два отличия: часть функций Android
+    выполняет через сервисы Google Play — только когда ими пользуетесь вы или
+    сайт, которому вы это разрешили, — а перевода страниц на Android нет. Что
+    уходит с устройства на Android:
+  </p>
+
+  <table>
+    <tr><th>Когда</th><th>Куда</th><th>Что именно</th></tr>
+
+    <tr>
+      <td>Браузер аварийно завершился, и вы разрешили отправку</td>
+      <td><code>growser-crashes.humans.top</code> — наш сервер</td>
+      <td>Минидамп, как на компьютере, плюс версии браузера и Android.</td>
+    </tr>
+
+    <tr>
+      <td>Открытие сайтов при включённой защите от опасных сайтов</td>
+      <td><code>backend.growser.org</code>, оттуда — Google Safe Browsing</td>
+      <td>Префиксы хешей адресов, как на компьютере: списки опасных сайтов хранятся на устройстве, и уточнение уходит, только если префикс совпал. Сами адреса не отправляются. Защита включена по умолчанию; выключить — «Настройки» → «Защита Growser и конфиденциальность» → «Безопасный просмотр».</td>
+    </tr>
+
+    <tr>
+      <td>Обновление внутренних компонентов и конфигурации браузера</td>
+      <td><code>backend.growser.org</code>, а через него — серверы Google для компонентов</td>
+      <td>Версии установленного и запросы на новое. Никаких адресов страниц и никакого содержимого.</td>
+    </tr>
+
+    <tr>
+      <td>Обновление списков фильтров</td>
+      <td>Серверы их издателей (GitHub, <code>easylist.to</code>, <code>fanboy.co.nz</code>, <code>gitlab.io</code>)</td>
+      <td>Запросы самих списков. Никаких адресов страниц и никакого содержимого.</td>
+    </tr>
+
+    <tr>
+      <td>Значки поисковых систем в настройках поиска</td>
+      <td><code>backend.growser.org</code>, оттуда — gstatic.com</td>
+      <td>Адреса поисковых систем, значки которых нужно показать. Не история и не страницы, которые вы открываете.</td>
+    </tr>
+
+    <tr>
+      <td>Поиск и подсказки в адресной строке</td>
+      <td>Выбранная вами поисковая система (по умолчанию DuckDuckGo)</td>
+      <td>То, что вы ввели. Подсказки по мере ввода на Android по умолчанию выключены.</td>
+    </tr>
+
+    <tr>
+      <td>Сайт присылает уведомления, и вы ему это разрешили</td>
+      <td>Google Firebase Cloud Messaging, через сервисы Google Play</td>
+      <td>Подписка этого сайта на ваше устройство и сообщения, которые он отправляет. Сообщения сайт шифрует для вашего браузера: Google их доставляет, но не читает. Пока вы не разрешили уведомления, ничего не отправляется.</td>
+    </tr>
+
+    <tr>
+      <td>Сайт запросил ваше местоположение, и вы разрешили</td>
+      <td>Служба геолокации Android (сервисы Google Play)</td>
+      <td>Местоположение определяет Android по правилам Google и настройкам телефона; получает его сайт, которому вы разрешили.</td>
+    </tr>
+
+    <tr>
+      <td>Вход по ключу доступа (passkey), подстановка кода из SMS, трансляция на экран (Cast), дополненная реальность</td>
+      <td>Сервисы Google Play на вашем устройстве</td>
+      <td>Только когда этим пользуетесь вы или сайт по вашему действию. Эти функции Android выполняет сам, по правилам Google.</td>
+    </tr>
+
+    <tr>
+      <td>Голосовой ввод</td>
+      <td>Системный распознаватель речи Android (обычно Google)</td>
+      <td>Запись с микрофона — только после нажатия на значок микрофона.</td>
+    </tr>
+
+    <tr>
+      <td>Сайт воспроизводит защищённое видео (как в онлайн-кинотеатрах)</td>
+      <td>Google — служба Widevine</td>
+      <td>Запрос сертификата для модуля защиты видео на вашем устройстве. Только после того, как сайт запустит такое видео.</td>
+    </tr>
+
+    <tr>
+      <td>Проверка обновлений</td>
+      <td>Google Play</td>
+      <td>Этим занимается Google Play, как для любого приложения.</td>
+    </tr>
+  </table>
+  <p>
+    Перевода страниц на Android нет: переводчика на самом телефоне у браузера
+    нет, а отправлять текст страниц на сторонние серверы мы не хотим. Данные
+    браузера не попадают в резервные копии Android в облаке Google.
+  </p>
 
   <h2>За что мы не отвечаем</h2>
   <ul>
