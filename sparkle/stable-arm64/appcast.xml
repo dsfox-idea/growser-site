@@ -10,7 +10,7 @@
       <sparkle:version>154.26.925.0</sparkle:version>
       <sparkle:shortVersionString>154.26.925.0</sparkle:shortVersionString>
       <sparkle:os>macos</sparkle:os>
-      <enclosure url="https://github.com/dsfox-idea/brave-core/releases/download/v154.26.925.0/Growser-mac-arm64.zip"
+      <enclosure url="https://growser.org/mac/Growser-154.26.925.0-mac-arm64.zip"
                  sparkle:edSignature="PrKBWtrxJxKkpHT6cpu+xap5Vp0K+HGffuSpRXHyD1sxoiX3MOoZI38iU3EFk2UquInj+v3qozC34u7e2AC7DQ=="
                  length="201966960"
                  type="application/octet-stream"/>
