@@ -82,7 +82,9 @@
   .lede b { color:var(--ink); font-weight:600; }
 
   /* --- sections --------------------------------------------------------- */
-  .band { padding:58px 0 10px; }
+  /* Longhands: the shorthand zeroed the 22px side padding `section` gives,
+     and on a phone the text ran into the screen edges. */
+  .band { padding-top:58px; padding-bottom:10px; }
   h2 { font-size:clamp(24px,4vw,34px); font-weight:750; letter-spacing:-.02em;
     line-height:1.15; margin-bottom:14px; }
   h2 .g { color:var(--green-bright); }
@@ -90,7 +92,7 @@
   .rule { height:1px; background:var(--line); margin:54px auto 0; max-width:var(--measure); }
 
   .cards { display:grid; gap:14px; margin-top:26px;
-    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); }
+    grid-template-columns:repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
   .card { background:var(--card); border:1px solid var(--line); border-radius:14px;
     padding:20px 20px 18px; }
   .card h3 { font-size:16px; font-weight:700; margin-bottom:7px; color:var(--ink); }
