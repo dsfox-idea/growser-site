@@ -103,7 +103,7 @@
   .prose p { color:var(--ink-dim); font-size:17px; margin-top:16px; }
   .prose p.first { margin-top:22px; }
   .prose strong { color:var(--ink); font-weight:600; }
-  .prose a, .sub a, .foot a, .meta a { color:var(--green-bright); }
+  .prose a, .sub a, .foot a, .meta a, .beta a:not(.get) { color:var(--green-bright); }
 
   .numbers { display:grid; gap:12px; margin-top:24px;
     grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); }
@@ -178,6 +178,19 @@
   .get.badge img { display:block; height:48px; width:auto; }
   .get.badge span { display:none; }
 
+  /* Android. Material 3's filled button: a full pill (shape corner-full),
+     40px tall at its smallest, label-large type (14px, weight 500, tracking
+     .1px) - read off m3.material.io's button specs. The fill is our green,
+     because Material asks a filled button to wear the app's primary colour.
+     No Android robot: the guidelines allow it only with attribution and never
+     as a button of ours. Flat, like the other two. A button on Android only;
+     everywhere else .quiet below turns it into a link. */
+  .get.android { background:var(--green); color:#04120b; border-radius:999px;
+    font-family:Roboto, system-ui, "Helvetica Neue", Arial, sans-serif;
+    font-weight:500; font-size:15px; letter-spacing:.1px; padding:14px 30px;
+    box-shadow:none; }
+  .get.android:hover { box-shadow:none; transform:none; background:var(--green-bright); }
+
   /* The platforms that are not yours: a link, not a second button - the badge
      included, which is why it carries its own words to fall back to. Last in
      the file on purpose, so it wins over the three above. */
@@ -190,6 +203,14 @@
   .get.badge.quiet img { display:none; }
   .get.badge.quiet span { display:inline; }
   .meta { margin-top:16px; font-size:13.5px; color:#8e9cc4; text-align:center; }
+
+  .beta { margin:34px auto 0; max-width:40rem; text-align:left;
+    border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+    background:var(--card); }
+  .beta h3 { margin:0 0 6px; font-size:16px; }
+  .beta p, .beta ol { margin:6px 0 0; font-size:14px; color:var(--ink-dim); }
+  .beta ol { padding-left:20px; }
+  .beta .downloads { margin-top:14px; justify-content:flex-start; }
   .hero .meta { max-width:40rem; margin-left:auto; margin-right:auto; }
 
   .foot { position:relative; z-index:1; margin:64px auto 40px; max-width:var(--measure);
@@ -270,6 +291,27 @@
       <a href="https://growser.org/rpm/growser-x86_64.rpm">the .rpm</a>; on Windows the
       Microsoft Store installs, signs and updates the browser ·
       <a href="/updates.html">how updates arrive</a></p>
+
+    <div class="beta" id="android" data-beta>
+      <h3>Android: a beta, before Google Play</h3>
+      <p>The same browser for Android phones, signed with our key and handed
+        out from this site while the Play listing is pending. It is a test
+        build: tell us what breaks at
+        <a href="mailto:support@growser.org">support@growser.org</a>.</p>
+      <div class="downloads">
+        <a class="get android" data-dl="android" href="https://growser.org/android/Growser.apk">Download for Android (.apk)</a>
+      </div>
+      <ol>
+        <li>The browser warns that an APK might be harmful: choose
+          <b>Download anyway</b>. Then open the file. Android asks once
+          whether your browser may install apps - allow it for this one.</li>
+        <li>When a newer beta is out, Growser shows <b>Update Growser</b> in
+          its menu. Tap it, and install the new APK over the old one: your
+          tabs, bookmarks and settings stay.</li>
+      </ol>
+      <p>Android 10 or newer, 64-bit ARM. To be invited by e-mail instead,
+        through Firebase App Distribution, write to the same address.</p>
+    </div>
   </section>
 
   <div class="rule"></div>
@@ -466,6 +508,29 @@
       <a href="https://growser.org/rpm/growser-x86_64.rpm">.rpm</a>; на Windows
       установку, подпись и обновления берёт на себя Microsoft Store ·
       <a href="/updates.html">как приходят обновления</a></p>
+
+    <div class="beta" id="android-ru" data-beta>
+      <h3>Android: бета до выхода в Google Play</h3>
+      <p>Тот же браузер для телефонов на Android, подписанный нашим ключом.
+        Пока Google Play проверяет приложение, мы раздаём его с этого сайта.
+        Это тестовая сборка: о том, что сломалось, пишите на
+        <a href="mailto:support@growser.org">support@growser.org</a>.</p>
+      <div class="downloads">
+        <a class="get android" data-dl="android" href="https://growser.org/android/Growser.apk">Скачать для Android (.apk)</a>
+      </div>
+      <ol>
+        <li>Браузер предупредит, что APK может быть опасен: выберите
+          <b>«Всё равно скачать»</b>. Затем откройте файл. Android один раз
+          спросит, можно ли вашему браузеру устанавливать приложения, —
+          разрешите для этого случая.</li>
+        <li>Когда выйдет новая бета, в меню Growser появится пункт
+          <b>«Обновить Growser»</b>. Нажмите его и установите новый APK поверх
+          старого: вкладки, закладки и настройки сохранятся.</li>
+      </ol>
+      <p>Нужен Android 10 или новее, 64-битный ARM. Если удобнее получить
+        приглашение на почту через Firebase App Distribution — напишите на тот
+        же адрес.</p>
+    </div>
   </section>
 
   <div class="rule"></div>
@@ -653,9 +718,10 @@
     // Order matters. Android reports "Linux armv8l" as its platform and modern
     // iPhones and iPads report a Mac one, so both have to be ruled out before
     // either of those tests runs - otherwise a phone is offered a desktop build
-    // that cannot run on it. We have no build for either, and saying nothing is
-    // the honest answer.
-    if (/Android|iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)) mine = null;
+    // that cannot run on it. Android has the beta APK (growser#381); for an
+    // iPhone we have nothing yet, and saying nothing is the honest answer.
+    if (/Android/i.test(ua)) mine = 'android';
+    else if (/iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)) mine = null;
     else if (/Mac/i.test(p)) mine = 'mac';
     else if (/Win/i.test(p)) mine = 'win';
     else if (/Linux|X11|CrOS/i.test(p)) mine = 'linux';
