@@ -285,7 +285,8 @@
       <a class="get apple" data-dl="mac" href="/mac/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
       <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Download from the Microsoft Store</span></a>
       <a class="get gnome" data-dl="linux" href="/apt/growser-amd64.deb">Download for Linux (.deb)</a>
-      <a class="get android" data-dl="android" href="#android">Android beta (.apk)</a>
+      <a class="get android" data-dl="android" href="/android/Growser.apk">Android beta (.apk)</a>
+      <a class="get apple" data-dl="ios" href="https://testflight.apple.com/join/Vfn2WcM4">iPhone and iPad beta (TestFlight)</a>
       <i class="brk"></i>
     </div>
     <p class="meta">Debian and Ubuntu take the <code>.deb</code>, Fedora and RHEL
@@ -293,15 +294,12 @@
       Microsoft Store installs, signs and updates the browser ·
       <a href="/updates.html">how updates arrive</a></p>
 
-    <div class="beta" id="android" data-beta>
+    <div class="beta" id="android" data-beta="android">
       <h3>Android: a beta, before Google Play</h3>
       <p>The same browser for Android phones, signed with our key and handed
         out from this site while the Play listing is pending. It is a test
         build: tell us what breaks at
         <a href="mailto:support@growser.org">support@growser.org</a>.</p>
-      <div class="downloads">
-        <a class="get android" data-dl="android" href="/android/Growser.apk">Download for Android (.apk)</a>
-      </div>
       <ol>
         <li>The browser warns that an APK might be harmful: choose
           <b>Download anyway</b>. Then open the file. Android asks once
@@ -312,6 +310,20 @@
       </ol>
       <p>Android 10 or newer, 64-bit ARM. To be invited by e-mail instead,
         through Firebase App Distribution, write to the same address.</p>
+    </div>
+
+    <div class="beta" id="ios" data-beta="ios">
+      <h3>iPhone and iPad: a public beta in TestFlight</h3>
+      <p>The same browser for iPhone and iPad, handed out through Apple's
+        TestFlight while the App Store listing is pending. It is a test build:
+        tell us what breaks at
+        <a href="mailto:support@growser.org">support@growser.org</a>.</p>
+      <ol>
+        <li>Open the link on the iPhone or iPad. If TestFlight is not installed
+          yet, the page leads to it in the App Store first.</li>
+        <li>Accept the invitation and install Growser. TestFlight installs each
+          newer beta for you, or offers it with an <b>Update</b> button.</li>
+      </ol>
     </div>
   </section>
 
@@ -465,6 +477,8 @@
       <a class="get apple" data-dl="mac" href="/mac/Growser-mac-arm64.dmg">Download for macOS (Apple silicon)</a>
       <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Download from the Microsoft Store</span></a>
       <a class="get gnome" data-dl="linux" href="/apt/growser-amd64.deb">Download for Linux (.deb)</a>
+      <a class="get android" data-dl="android" href="/android/Growser.apk">Android beta (.apk)</a>
+      <a class="get apple" data-dl="ios" href="https://testflight.apple.com/join/Vfn2WcM4">iPhone and iPad beta (TestFlight)</a>
       <i class="brk"></i>
     </div>
     <p class="meta">Every release carries its checksums, and the Windows installer is
@@ -503,7 +517,8 @@
       <a class="get apple" data-dl="mac" href="/mac/Growser-mac-arm64.dmg">Скачать для macOS (Apple silicon)</a>
       <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Скачать в Microsoft Store</span></a>
       <a class="get gnome" data-dl="linux" href="/apt/growser-amd64.deb">Скачать для Linux (.deb)</a>
-      <a class="get android" data-dl="android" href="#android-ru">Бета для Android (.apk)</a>
+      <a class="get android" data-dl="android" href="/android/Growser.apk">Бета для Android (.apk)</a>
+      <a class="get apple" data-dl="ios" href="https://testflight.apple.com/join/Vfn2WcM4">Бета для iPhone и iPad (TestFlight)</a>
       <i class="brk"></i>
     </div>
     <p class="meta">Debian и Ubuntu ставят <code>.deb</code>, Fedora и RHEL —
@@ -511,15 +526,12 @@
       установку, подпись и обновления берёт на себя Microsoft Store ·
       <a href="/updates.html">как приходят обновления</a></p>
 
-    <div class="beta" id="android-ru" data-beta>
+    <div class="beta" id="android-ru" data-beta="android">
       <h3>Android: бета до выхода в Google Play</h3>
       <p>Тот же браузер для телефонов на Android, подписанный нашим ключом.
         Пока Google Play проверяет приложение, мы раздаём его с этого сайта.
         Это тестовая сборка: о том, что сломалось, пишите на
         <a href="mailto:support@growser.org">support@growser.org</a>.</p>
-      <div class="downloads">
-        <a class="get android" data-dl="android" href="/android/Growser.apk">Скачать для Android (.apk)</a>
-      </div>
       <ol>
         <li>Браузер предупредит, что APK может быть опасен: выберите
           <b>«Всё равно скачать»</b>. Затем откройте файл. Android один раз
@@ -532,6 +544,20 @@
       <p>Нужен Android 10 или новее, 64-битный ARM. Если удобнее получить
         приглашение на почту через Firebase App Distribution — напишите на тот
         же адрес.</p>
+    </div>
+
+    <div class="beta" id="ios-ru" data-beta="ios">
+      <h3>iPhone и iPad: открытая бета в TestFlight</h3>
+      <p>Тот же браузер для iPhone и iPad, через TestFlight от Apple, пока
+        идёт публикация в App Store. Это тестовая сборка: о том, что не
+        работает, пишите на
+        <a href="mailto:support@growser.org">support@growser.org</a>.</p>
+      <ol>
+        <li>Откройте ссылку на iPhone или iPad. Если TestFlight ещё не
+          установлен, страница сначала отправит в App Store за ним.</li>
+        <li>Примите приглашение и установите Growser. Новые беты TestFlight
+          ставит сам или предлагает кнопкой <b>«Обновить»</b>.</li>
+      </ol>
     </div>
   </section>
 
@@ -685,6 +711,8 @@
       <a class="get apple" data-dl="mac" href="/mac/Growser-mac-arm64.dmg">Скачать для macOS (Apple silicon)</a>
       <a class="get badge" data-dl="win" href="https://apps.microsoft.com/detail/9P4JQVLX29T9"><img src="ms-store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store" /><span>Скачать в Microsoft Store</span></a>
       <a class="get gnome" data-dl="linux" href="/apt/growser-amd64.deb">Скачать для Linux (.deb)</a>
+      <a class="get android" data-dl="android" href="/android/Growser.apk">Бета для Android (.apk)</a>
+      <a class="get apple" data-dl="ios" href="https://testflight.apple.com/join/Vfn2WcM4">Бета для iPhone и iPad (TestFlight)</a>
       <i class="brk"></i>
     </div>
     <p class="meta">У каждого выпуска опубликованы контрольные суммы, а установщик для
@@ -708,31 +736,36 @@
 </main>
 
 <script>
-  // Three working downloads in the markup, so a reader with no JavaScript gets
-  // all of them rather than none. This keeps the one that matches the platform
-  // as a button and turns the other two into links - in both language halves,
-  // since only one of them is ever on screen.
+  // Every download is in the markup, so a reader with no JavaScript gets all
+  // of them. This keeps exactly one button - the one for the platform the page
+  // is open on - and turns the rest into links, in both language halves.
   (function () {
     var ua = navigator.userAgent || "";
     var p = (navigator.userAgentData && navigator.userAgentData.platform)
             || navigator.platform || "";
     var mine = null;
-    // Order matters. Android reports "Linux armv8l" as its platform and modern
-    // iPhones and iPads report a Mac one, so both have to be ruled out before
-    // either of those tests runs - otherwise a phone is offered a desktop build
-    // that cannot run on it. Android has the beta APK (growser#381); for an
-    // iPhone we have nothing yet, and saying nothing is the honest answer.
+    // Order matters. Android reports "Linux armv8l" and an iPad reports a Mac
+    // platform (only its touch screen gives it away), so both phones go first,
+    // or a phone is offered a desktop build that cannot run on it.
     if (/Android/i.test(ua)) mine = 'android';
-    else if (/iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)) mine = null;
+    else if (/iPhone|iPad|iPod/i.test(ua) || /iPhone|iPad|iPod/i.test(p)
+             || (/Mac/i.test(p) && navigator.maxTouchPoints > 1)) mine = 'ios';
     else if (/Mac/i.test(p)) mine = 'mac';
     else if (/Win/i.test(p)) mine = 'win';
     else if (/Linux|X11|CrOS/i.test(p)) mine = 'linux';
-    // Nothing recognised: leave all three as they are. A page that cannot tell
+    // Nothing recognised: leave everything as it is. A page that cannot tell
     // must not pick for the reader.
     if (!mine) return;
     var all = document.querySelectorAll('[data-dl]');
     for (var i = 0; i < all.length; i++) {
       if (all[i].getAttribute('data-dl') !== mine) all[i].classList.add('quiet');
+    }
+    // On a phone the other phone's beta block is only noise; a desktop reader
+    // keeps both, to learn that the betas exist.
+    var mobile = mine === 'android' || mine === 'ios';
+    var blocks = document.querySelectorAll('[data-beta]');
+    for (var j = 0; j < blocks.length; j++) {
+      if (mobile && blocks[j].getAttribute('data-beta') !== mine) blocks[j].hidden = true;
     }
   })();
 </script>
