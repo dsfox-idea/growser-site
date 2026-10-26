@@ -119,15 +119,17 @@
 
   <h2>macOS</h2>
   <ul>
-    <li><b>Distribution.</b> An Apple Silicon (arm64) build, packaged as a
-      notarized disk image <code>Growser-mac-arm64.dmg</code> on the same GitHub
-      release. Download, open, drag <code>Growser.app</code> to
-      <code>/Applications</code>. There is no Intel (x86_64) build yet.</li>
+    <li><b>Distribution.</b> Two separate builds, one per processor, each a
+      notarized disk image: <code>Growser-mac-arm64.dmg</code> for Apple
+      silicon and <code>Growser-mac-x64.dmg</code> for Intel Macs. Neither is
+      a universal binary. Download, open, drag <code>Growser.app</code> to
+      <code>/Applications</code>.</li>
     <li><b>Updates.</b> The active updater on macOS is
       <a href="https://sparkle-project.org/">Sparkle</a>: the browser reads a
       signed appcast at the URL compiled into it
-      (<code>https://growser.org/sparkle/stable-arm64/appcast.xml</code>),
-      which advertises <code>Growser-mac-arm64.zip</code> &mdash; the
+      (<code>https://growser.org/sparkle/stable-arm64/appcast.xml</code> on
+      Apple silicon, <code>https://growser.org/sparkle/stable/appcast.xml</code>
+      on Intel), which advertises that build's <code>Growser-mac-&lt;cpu&gt;.zip</code> &mdash; the
       auto-update archive, ditto-zipped and signed with our EdDSA key &mdash;
       and installs it in place. The manual download button serves the
       <code>.dmg</code> above; both carry the same notarized build.</li>
@@ -241,15 +243,17 @@
 
   <h2>macOS</h2>
   <ul>
-    <li><b>Доставка.</b> Сборка для Apple Silicon (arm64), упакованная в
-      нотаризованный образ <code>Growser-mac-arm64.dmg</code> в том же выпуске
-      на GitHub. Скачать, открыть, перетащить <code>Growser.app</code> в
-      <code>/Applications</code>. Сборки для Intel (x86_64) пока нет.</li>
+    <li><b>Доставка.</b> Две отдельные сборки, по одной на процессор, каждая в
+      нотаризованном образе: <code>Growser-mac-arm64.dmg</code> для Apple
+      Silicon и <code>Growser-mac-x64.dmg</code> для Mac на Intel. Универсальной
+      сборки нет. Скачать, открыть, перетащить <code>Growser.app</code> в
+      <code>/Applications</code>.</li>
     <li><b>Обновления.</b> На macOS работает
       <a href="https://sparkle-project.org/">Sparkle</a>: браузер читает
       подписанный appcast по адресу, вшитому в сборку
-      (<code>https://growser.org/sparkle/stable-arm64/appcast.xml</code>), где
-      объявлен <code>Growser-mac-arm64.zip</code> &mdash; архив для
+      (<code>https://growser.org/sparkle/stable-arm64/appcast.xml</code> на
+      Apple Silicon, <code>https://growser.org/sparkle/stable/appcast.xml</code>
+      на Intel), где объявлен <code>Growser-mac-&lt;cpu&gt;.zip</code> этой сборки &mdash; архив для
       автообновления, упакованный через ditto и подписанный нашим ключом
       EdDSA, &mdash; и ставит его поверх. Кнопка ручной загрузки отдаёт
       <code>.dmg</code> выше; внутри обоих один и тот же нотаризованный
